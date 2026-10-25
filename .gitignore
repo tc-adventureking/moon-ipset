@@ -1,0 +1,8 @@
+_build/
+target/
+.mooncakes/
+*.core
+__pycache__/
+*.pyc
+.DS_Store
+work/
