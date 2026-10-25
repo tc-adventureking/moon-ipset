@@ -37,23 +37,26 @@ moon -C examples/consumer run . --target wasm-gc
 - [模块依赖](examples/consumer/moon.mod)与[包导入](examples/consumer/moon.pkg)
 - [完整调用示例](examples/consumer/main.mbt)与[公共 API](pkg.generated.mbti)
 
-## JSON Lines CLI
+## 网段文件 CLI
 
-需要 Node.js `22.3.0+`。每行接收一条 JSON 请求，标准输入结束后输出结果：
+需要 Node.js `22.3.0+`。文件每行一个 IP 或 CIDR，支持空行、`#` 注释与标准输入 `-`。仓库入口会自动调用 MoonBit 构建。
 
 ```bash
-moon build --release --target js
-printf '%s\n' '{"op":"difference","left":["10.0.0.0/24"],"right":["10.0.0.0/25"]}' \
-  | node _build/js/release/build/tc-adventureking/ipset/cmd/ipset/ipset.js
+node bin/ipset.mjs normalize examples/policies/new.txt
+node bin/ipset.mjs diff examples/policies/old.txt examples/policies/new.txt --json
 ```
 
-输出：
+diff 输出新增与移除的网段：
 
 ```json
-{"ok":true,"cidrs":["10.0.0.128/25"]}
+{"added":["10.0.1.10/32","2001:db8:1::/126"],"removed":["10.0.0.128/25","2001:db8::/127"]}
 ```
 
-支持解析、归一化、集合运算、范围转换和成员查询。请求字段见[协议说明](docs/SPEC.md#json-lines-protocol)，更多示例见 [USAGE.md](docs/USAGE.md)。
+退出码：`0` 成功／无变化，`1` diff 有变化，`2` 输入或运行错误。`--strict` 拒绝有主机位的 CIDR；`--help` 查看用法。比较的是地址集合，不解释防火墙规则顺序。
+
+原 JSONL 入口仍可用：`node bin/ipset.mjs jsonl < examples/requests.jsonl`。协议与文件格式见 [SPEC.md](docs/SPEC.md)，完整场景见 [USAGE.md](docs/USAGE.md)。
+
+[Releases](https://github.com/tc-adventureking/moon-ipset/releases) 提供便携 CLI ZIP；完整解压后用 `node ipset.mjs --help` 运行，只需 Node.js。也可运行 `python3 scripts/package_release.py` 自行构建并验证安装包。
 
 ## 测试
 
@@ -70,6 +73,10 @@ bash scripts/verify.sh
 ```
 
 验证范围与版本见 [TESTING.md](docs/TESTING.md)。
+
+## 性能
+
+固定输入的 native release [基准数据与复现命令](docs/BENCHMARKS.md)，覆盖 100 至 10,000 条网段及多种分布。
 
 ## 许可
 

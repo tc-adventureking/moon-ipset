@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "checks": [
+    "documented dual-stack policy diff fixture",
+    "complete deterministic text diff",
+    "reversing operands exchanges added and removed",
+    "semantic equality despite order, duplicates, splits, BOM, CRLF, comments and Unicode paths",
+    "normalization yields minimal dual-stack CIDRs",
+    "empty files and empty results",
+    "bare hosts, mapped IPv6, maximum and zero addresses",
+    "strict host bits rejection with source location",
+    "invalid later input yields no partial normal or diff output",
+    "missing file and directory input errors",
+    "invalid UTF-8 is rejected",
+    "stdin source and rejection of repeated stdin",
+    "option terminator preserves hyphen-prefixed filenames",
+    "wrong argument counts and unknown options fail",
+    "more than 64 KiB stdout is flushed completely",
+    "stable launcher works outside repository and preserves diff exit code",
+    "launcher rebuild preserves relative paths and stdin",
+    "launcher help works without MoonBit; missing compiler reports error",
+    "unexpected host exceptions cannot masquerade as diff changes",
+    "bootstrap maps missing and malformed runtime or compiled entry to exit 2",
+    "bootstrap preserves argument positions cwd stdin and valid exit 1",
+    "legacy no-argument JSONL behavior remains intact"
+  ],
+  "passed_checks": 22
+}

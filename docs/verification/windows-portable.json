@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "platform": "Windows",
+  "node": "v24.16.0",
+  "PATH": "",
+  "checks": [
+    "help without MoonBit or PATH",
+    "relative files and changed diff exit 1",
+    "stdin and unchanged diff exit 0",
+    "invalid input exit 2 and source line",
+    "missing runtime.mjs exits 2",
+    "missing ipset.js exits 2"
+  ],
+  "passed_checks": 6
+}
