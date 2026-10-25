@@ -3,6 +3,7 @@
 
 No performance threshold is asserted. --smoke validates the executable and result
 schema on five small cases; omit it to measure the full 60-case matrix.
+--subset selects the independent subset comparison suite (24 cases, 8 in smoke).
 """
 
 from __future__ import annotations
@@ -21,9 +22,11 @@ import time
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_FILES = ["address.mbt", "cidr.mbt", "set.mbt", "bench/main.mbt", "bench/moon.pkg"]
+SOURCE_FILES = ["address.mbt", "cidr.mbt", "set.mbt", "bench/main.mbt", "bench/subset.mbt", "bench/moon.pkg"]
 OPERATIONS = {"parse_normalize", "union", "difference", "cidrs_of_difference", "contains_batch"}
 PROFILES = {"overlap", "discrete", "fragmented", "mixed"}
+SUBSET_SCENARIOS = {"empty_right", "first_uncovered", "last_uncovered", "covered"}
+SUBSET_IMPLEMENTATIONS = {"is_subset_of", "difference_is_empty"}
 
 
 def fingerprints() -> dict[str, str]:
@@ -98,46 +101,83 @@ def validate(rows: list[dict[str, object]], smoke: bool) -> None:
                 output_intervals = n * 2
             if row["output_intervals"] != output_intervals or row["output_cidrs"] != output_intervals:
                 raise ValueError(f"unexpected benchmark output shape: {key}")
-        summaries = row["summaries"]
-        if len(summaries) != 1:
-            raise ValueError(f"expected exactly one summary: {key}")
-        summary = summaries[0]
-        if summary["runs"] != (2 if smoke else 5) or summary["batch_size"] < 1:
-            raise ValueError(f"invalid sampling metadata: {key}")
-        for name in ("min", "max", "mean", "median", "std_dev"):
-            value = summary[name]
-            if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
-                raise ValueError(f"invalid {name}: {key}")
-        if not summary["min"] <= summary["median"] <= summary["max"]:
-            raise ValueError(f"inconsistent timing distribution: {key}")
+        validate_summary(row, smoke, key)
     if seen != expected:
         raise ValueError(f"missing cases: {sorted(expected - seen)}")
+
+
+def validate_summary(row: dict[str, object], smoke: bool, key: tuple) -> None:
+    summaries = row["summaries"]
+    if len(summaries) != 1:
+        raise ValueError(f"expected exactly one summary: {key}")
+    summary = summaries[0]
+    expected_name = (f"subset.{row['scenario']}.{row['implementation']}.n{row['left_input_count']}"
+                     if "scenario" in row else
+                     f"{row['profile']}.{row['operation']}.n{row['input_count_per_operand']}")
+    if summary["name"] != expected_name:
+        raise ValueError(f"summary label does not match case: {key}")
+    if summary["runs"] != (2 if smoke else 5) or summary["batch_size"] < 1:
+        raise ValueError(f"invalid sampling metadata: {key}")
+    for name in ("min", "max", "mean", "median", "std_dev"):
+        value = summary[name]
+        if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+            raise ValueError(f"invalid {name}: {key}")
+    if not summary["min"] <= summary["median"] <= summary["max"]:
+        raise ValueError(f"inconsistent timing distribution: {key}")
+
+
+def validate_subset(rows: list[dict[str, object]], smoke: bool) -> None:
+    sizes = {100} if smoke else {100, 1000, 10000}
+    expected = {(scenario, size, impl) for scenario in SUBSET_SCENARIOS
+                for size in sizes for impl in SUBSET_IMPLEMENTATIONS}
+    seen = set()
+    for row in rows:
+        key = (row["scenario"], row["left_input_count"], row["implementation"])
+        if key not in expected or key in seen:
+            raise ValueError(f"unexpected or repeated subset benchmark: {key}")
+        seen.add(key)
+        n = row["left_input_count"]
+        scenario = row["scenario"]
+        right_count = 0 if scenario == "empty_right" else n if scenario == "covered" else n - 1
+        result = scenario == "covered"
+        if row["left_intervals"] != n or row["right_intervals"] != right_count:
+            raise ValueError(f"unexpected subset fixture interval count: {key}")
+        if row["expected"] is not result or row["actual"] is not result:
+            raise ValueError(f"unexpected subset result: {key}")
+        if row["seed"] != 0x5EED2026 or row["unit"] != "microseconds_per_iteration":
+            raise ValueError(f"invalid seed or unit: {key}")
+        validate_summary(row, smoke, key)
+    if seen != expected:
+        raise ValueError(f"missing subset cases: {sorted(expected - seen)}")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--subset", action="store_true")
     parser.add_argument("--target-dir", default="_build/bench")
-    parser.add_argument("--output", type=Path, default=Path("bench/results/native.json"))
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     before = fingerprints()
     metadata = environment()
     command = ["moon", "run", "bench", "--target", "native", "--release", "--deny-warn",
                "--target-dir", args.target_dir]
-    if args.smoke:
-        command += ["--", "--smoke"]
+    benchmark_args = (["--smoke"] if args.smoke else []) + (["--subset"] if args.subset else [])
+    if benchmark_args:
+        command += ["--"] + benchmark_args
     started = time.monotonic()
     run = subprocess.run(command, cwd=ROOT, text=True, capture_output=True, timeout=300)
     if run.returncode:
         sys.stderr.write(run.stderr)
         return run.returncode
     rows = [json.loads(line) for line in run.stdout.splitlines() if line.strip()]
-    validate(rows, args.smoke)
+    (validate_subset if args.subset else validate)(rows, args.smoke)
     after = fingerprints()
     if before != after:
         raise RuntimeError("benchmark sources changed during the run; do not publish these timings")
     report = {
         "schema_version": 1,
+        "suite": "subset" if args.subset else "operations",
         "measured_at_utc": datetime.now(timezone.utc).isoformat(),
         "mode": "smoke" if args.smoke else "full",
         "environment": metadata,
@@ -147,16 +187,17 @@ def main() -> int:
             "samples_per_case": 2 if args.smoke else 5,
             "fixture_seed": 0x5EED2026,
             "benchmark_calls": len(rows),
-            "unit": "microseconds per iteration; contains iteration is one query batch",
+            "unit": "microseconds per iteration" if args.subset else "microseconds per iteration; contains iteration is one query batch",
             "scope": "single-host synthetic microbenchmarks; no cross-library comparison",
         },
         "elapsed_seconds_including_build": round(time.monotonic() - started, 3),
         "cases": rows,
     }
-    output = args.output if args.output.is_absolute() else ROOT / args.output
+    requested_output = args.output or Path("bench/results/subset-native.json" if args.subset else "bench/results/native.json")
+    output = requested_output if requested_output.is_absolute() else ROOT / requested_output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps({"status": "ok", "mode": report["mode"], "cases": len(rows)}, ensure_ascii=False))
+    print(json.dumps({"status": "ok", "suite": report["suite"], "mode": report["mode"], "cases": len(rows)}, ensure_ascii=False))
     return 0
 
 

@@ -248,8 +248,24 @@ pub fn IpSet::symmetric_difference(self : IpSet, other : IpSet) -> IpSet {
 
 ///|
 /// Whether every address in this set also belongs to `other`.
+/// Scans canonical intervals in O(m+n) time and O(1) extra space, returning
+/// immediately when an interval is not covered. A continuous source interval
+/// must fit in one canonical covering interval because distinct ones have gaps.
 pub fn IpSet::is_subset_of(self : IpSet, other : IpSet) -> Bool {
-  self.difference(other).is_empty()
+  let mut j = 0
+  for source in self.ranges {
+    while j < other.ranges.length() && other.ranges[j].hi < source.lo {
+      j = j + 1
+    }
+    if j >= other.ranges.length() {
+      return false
+    }
+    let covering = other.ranges[j]
+    if covering.lo > source.lo || covering.hi < source.hi {
+      return false
+    }
+  }
+  true
 }
 
 ///|

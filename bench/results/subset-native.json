@@ -1,0 +1,856 @@
+{
+  "schema_version": 1,
+  "suite": "subset",
+  "measured_at_utc": "2026-10-25T18:17:40.407194+00:00",
+  "mode": "full",
+  "environment": {
+    "os": "Ubuntu 26.04 LTS",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "architecture": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i9-14900HX",
+    "python": "3.14.4",
+    "moonbit": [
+      "moon 0.1.20261023 (3778465 2026-10-23)",
+      "moonc v0.10.17+d971670cd (2026-10-23)",
+      "moonrun 0.1.20261023 (3778465 2026-10-23)"
+    ],
+    "c_compiler": "clang version 22.1.8",
+    "backend": "native",
+    "build": "release"
+  },
+  "source_sha256": {
+    "address.mbt": "6baa710b303ee6d032504e39f2ce1deb268a93ff8bbc7940c77141fee1b61d8b",
+    "cidr.mbt": "78a12e5037a0953a29ef5db034f1b35d4cddc8810d2f46f971f0d4acdd9109a4",
+    "set.mbt": "5b6200b3bda365ddf19c5fc5129aac357960371964087d32105e8e17fa40437c",
+    "bench/main.mbt": "4234f1204fc4bae5e4aba3cd054885efac68afe3620a0f01558e24ac30783c03",
+    "bench/subset.mbt": "3d7837ac669ddd14cd4cd033613e3fa88c3b8f29999e1eb8b2b6da06056be2e2",
+    "bench/moon.pkg": "3b94f4130ffc892b19f271940dd95392adb17e7930a1a883951c8391d8e8e4c2"
+  },
+  "method": {
+    "runner": "moonbitlang/core/bench.Bench",
+    "samples_per_case": 5,
+    "fixture_seed": 1592598566,
+    "benchmark_calls": 24,
+    "unit": "microseconds per iteration",
+    "scope": "single-host synthetic microbenchmarks; no cross-library comparison"
+  },
+  "elapsed_seconds_including_build": 18.695,
+  "cases": [
+    {
+      "scenario": "empty_right",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 100,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.is_subset_of.n100",
+          "sum": 0.042815074,
+          "min": 0.008380066,
+          "max": 0.008760178,
+          "mean": 0.008563014800000001,
+          "median": 0.00856133,
+          "variance": 2.5371177011200088e-08,
+          "std_dev": 0.0001592833230793484,
+          "std_dev_pct": 1.86013135326297,
+          "median_abs_dev": 0.00018550291200000168,
+          "median_abs_dev_pct": 2.1667534366739942,
+          "quartiles": [
+            0.00843621,
+            0.00856133,
+            0.00867729
+          ],
+          "iqr": 0.00024108000000000115,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "empty_right",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 100,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.difference_is_empty.n100",
+          "sum": 16.483410555591487,
+          "min": 3.2330859388137894,
+          "max": 3.3694859258780157,
+          "mean": 3.2966821111182973,
+          "median": 3.292922255998965,
+          "variance": 0.002873334328821705,
+          "std_dev": 0.053603491759601864,
+          "std_dev_pct": 1.6259830324197846,
+          "median_abs_dev": 0.04980010344091604,
+          "median_abs_dev_pct": 1.5123376614856738,
+          "quartiles": [
+            3.2614044693098765,
+            3.292922255998965,
+            3.3265119655908415
+          ],
+          "iqr": 0.06510749628096502,
+          "batch_size": 30922,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 100,
+      "right_intervals": 99,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.is_subset_of.n100",
+          "sum": 0.059965939999999995,
+          "min": 0.011878624,
+          "max": 0.012122706,
+          "mean": 0.011993187999999998,
+          "median": 0.012019560000000002,
+          "variance": 1.1260894997999967e-08,
+          "std_dev": 0.00010611736426240508,
+          "std_dev_pct": 0.8848136480675955,
+          "median_abs_dev": 0.00015292425959999761,
+          "median_abs_dev_pct": 1.2722949891676367,
+          "quartiles": [
+            0.01189008,
+            0.012019560000000002,
+            0.01205497
+          ],
+          "iqr": 0.00016488999999999913,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 100,
+      "right_intervals": 99,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.difference_is_empty.n100",
+          "sum": 6.020587574436737,
+          "min": 1.1766157726072812,
+          "max": 1.241210564184419,
+          "mean": 1.2041175148873475,
+          "median": 1.1965229418626067,
+          "variance": 0.0006037218551412855,
+          "std_dev": 0.02457075202636837,
+          "std_dev_pct": 2.040560968724644,
+          "median_abs_dev": 0.025434003455092377,
+          "median_abs_dev_pct": 2.1256594892781333,
+          "quartiles": [
+            1.1925603536128677,
+            1.1965229418626067,
+            1.2136779421695623
+          ],
+          "iqr": 0.021117588556694544,
+          "batch_size": 81445,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 100,
+      "right_intervals": 99,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.is_subset_of.n100",
+          "sum": 4.464349877999999,
+          "min": 0.8724922399999996,
+          "max": 0.908002058,
+          "mean": 0.8928699755999998,
+          "median": 0.89415001,
+          "variance": 0.00024842948605615153,
+          "std_dev": 0.0157616460452629,
+          "std_dev_pct": 1.7652789852936008,
+          "median_abs_dev": 0.020372228688000097,
+          "median_abs_dev_pct": 2.2783904781257114,
+          "quartiles": [
+            0.8818146800000001,
+            0.89415001,
+            0.9078908900000001
+          ],
+          "iqr": 0.026076210000000044,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 100,
+      "right_intervals": 99,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.difference_is_empty.n100",
+          "sum": 6.031171823779981,
+          "min": 1.2016234072599317,
+          "max": 1.2111393855912584,
+          "mean": 1.206234364755996,
+          "median": 1.2060641841837207,
+          "variance": 2.0324412022856985e-05,
+          "std_dev": 0.004508260420922574,
+          "std_dev_pct": 0.3737466410049203,
+          "median_abs_dev": 0.0064454452727105765,
+          "median_abs_dev_pct": 0.5344197561983762,
+          "quartiles": [
+            1.2019332692841929,
+            1.2060641841837207,
+            1.2104115774608761
+          ],
+          "iqr": 0.008478308176683269,
+          "batch_size": 86392,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.is_subset_of.n100",
+          "sum": 4.508808984,
+          "min": 0.879136698,
+          "max": 0.926519026,
+          "mean": 0.9017617968,
+          "median": 0.89874784,
+          "variance": 0.0004972705144740075,
+          "std_dev": 0.02229956310051853,
+          "std_dev_pct": 2.4728884257074273,
+          "median_abs_dev": 0.02907547912919987,
+          "median_abs_dev_pct": 3.2351097644028686,
+          "quartiles": [
+            0.88152913,
+            0.89874784,
+            0.92287629
+          ],
+          "iqr": 0.04134716000000005,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 100,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.difference_is_empty.n100",
+          "sum": 5.835360230507372,
+          "min": 1.1527337268069384,
+          "max": 1.1955139338453138,
+          "mean": 1.1670720461014743,
+          "median": 1.1648182082234435,
+          "variance": 0.0002850346415760747,
+          "std_dev": 0.016882968979894344,
+          "std_dev_pct": 1.4466089763944538,
+          "median_abs_dev": 0.01287952229438519,
+          "median_abs_dev_pct": 1.1057109344151452,
+          "quartiles": [
+            1.156131089449408,
+            1.1648182082234435,
+            1.1661632721822681
+          ],
+          "iqr": 0.010032182732860218,
+          "batch_size": 86071,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "empty_right",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 1000,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.is_subset_of.n1000",
+          "sum": 0.044122261999999995,
+          "min": 0.008207410000000002,
+          "max": 0.010147541999999999,
+          "mean": 0.008824452399999998,
+          "median": 0.00859451,
+          "variance": 5.824378539087987e-07,
+          "std_dev": 0.0007631761617797025,
+          "std_dev_pct": 8.648425162106406,
+          "median_abs_dev": 0.00020023995599999903,
+          "median_abs_dev_pct": 2.3298588982966923,
+          "quartiles": [
+            0.00845945,
+            0.00859451,
+            0.00871335
+          ],
+          "iqr": 0.0002538999999999996,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "empty_right",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 1000,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.difference_is_empty.n1000",
+          "sum": 165.22677092481706,
+          "min": 31.94350525615436,
+          "max": 34.33514624085163,
+          "mean": 33.045354184963415,
+          "median": 32.72579873586161,
+          "variance": 0.9245331934034405,
+          "std_dev": 0.9615264912645104,
+          "std_dev_pct": 2.9097176138061567,
+          "median_abs_dev": 1.1598283130139675,
+          "median_abs_dev_pct": 3.5440794657916284,
+          "quartiles": [
+            32.51545841650034,
+            32.72579873586161,
+            33.706862275449105
+          ],
+          "iqr": 1.1914038589487674,
+          "batch_size": 3006,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 1000,
+      "right_intervals": 999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.is_subset_of.n1000",
+          "sum": 0.057947366,
+          "min": 0.011328494,
+          "max": 0.012058062,
+          "mean": 0.0115894732,
+          "median": 0.01147915,
+          "variance": 8.497051694719988e-08,
+          "std_dev": 0.0002914970273385303,
+          "std_dev_pct": 2.5151878977426714,
+          "median_abs_dev": 0.0002233625856000011,
+          "median_abs_dev_pct": 1.945811193337495,
+          "quartiles": [
+            0.01140799,
+            0.01147915,
+            0.011673669999999999
+          ],
+          "iqr": 0.00026567999999999904,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 1000,
+      "right_intervals": 999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.difference_is_empty.n1000",
+          "sum": 70.85580683391004,
+          "min": 13.9208961361015,
+          "max": 14.308677998846598,
+          "mean": 14.171161366782007,
+          "median": 14.2532726355248,
+          "variance": 0.02708812436900647,
+          "std_dev": 0.16458470271871098,
+          "std_dev_pct": 1.1614058894601729,
+          "median_abs_dev": 0.08214399166089757,
+          "median_abs_dev_pct": 0.5763167081794409,
+          "quartiles": [
+            14.087491637831604,
+            14.2532726355248,
+            14.285468425605536
+          ],
+          "iqr": 0.19797678777393202,
+          "batch_size": 6936,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 1000,
+      "right_intervals": 999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.is_subset_of.n1000",
+          "sum": 59.21128381801126,
+          "min": 11.469244606003754,
+          "max": 12.098358747654784,
+          "mean": 11.842256763602252,
+          "median": 11.858119606003754,
+          "variance": 0.06661573709618152,
+          "std_dev": 0.2581002462148797,
+          "std_dev_pct": 2.1794853072951708,
+          "median_abs_dev": 0.3003142946763559,
+          "median_abs_dev_pct": 2.532562536511329,
+          "quartiles": [
+            11.72488203564728,
+            11.858119606003754,
+            12.060678822701687
+          ],
+          "iqr": 0.33579678705440763,
+          "batch_size": 8528,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 1000,
+      "right_intervals": 999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.difference_is_empty.n1000",
+          "sum": 71.31055135904369,
+          "min": 13.897637199373841,
+          "max": 14.60237153835207,
+          "mean": 14.262110271808737,
+          "median": 14.337333712821973,
+          "variance": 0.1094115547989577,
+          "std_dev": 0.33077417492748384,
+          "std_dev_pct": 2.319251279253604,
+          "median_abs_dev": 0.392945080130922,
+          "median_abs_dev_pct": 2.740712380709313,
+          "quartiles": [
+            13.934885868791799,
+            14.337333712821973,
+            14.538323039703998
+          ],
+          "iqr": 0.6034371709121995,
+          "batch_size": 7027,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.is_subset_of.n1000",
+          "sum": 59.496742011549564,
+          "min": 11.627309937439847,
+          "max": 12.33517365255053,
+          "mean": 11.899348402309913,
+          "median": 11.805881376323388,
+          "variance": 0.07727600494645298,
+          "std_dev": 0.27798562003537697,
+          "std_dev_pct": 2.3361415317616396,
+          "median_abs_dev": 0.2647500152887377,
+          "median_abs_dev_pct": 2.242526473454934,
+          "quartiles": [
+            11.733906280076997,
+            11.805881376323388,
+            11.994470765158805
+          ],
+          "iqr": 0.2605644850818081,
+          "batch_size": 8312,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 1000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.difference_is_empty.n1000",
+          "sum": 69.46074817508041,
+          "min": 13.776733631659907,
+          "max": 14.045262760453085,
+          "mean": 13.892149635016082,
+          "median": 13.88324556006153,
+          "variance": 0.01264225284801289,
+          "std_dev": 0.11243777322596214,
+          "std_dev_pct": 0.8093619503100894,
+          "median_abs_dev": 0.12909421770381976,
+          "median_abs_dev_pct": 0.9298561863314591,
+          "quartiles": [
+            13.796172703118444,
+            13.88324556006153,
+            13.959333519787442
+          ],
+          "iqr": 0.16316081666899862,
+          "batch_size": 7151,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "empty_right",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 10000,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.is_subset_of.n10000",
+          "sum": 0.040432584,
+          "min": 0.007875413999999999,
+          "max": 0.00854393,
+          "mean": 0.0080865168,
+          "median": 0.00794004,
+          "variance": 7.686112487120006e-08,
+          "std_dev": 0.00027723838996646924,
+          "std_dev_pct": 3.428403066774921,
+          "median_abs_dev": 9.581450760000245e-05,
+          "median_abs_dev_pct": 1.2067257545302346,
+          "quartiles": [
+            0.00791995,
+            0.00794004,
+            0.00815325
+          ],
+          "iqr": 0.00023330000000000052,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "empty_right",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 10000,
+      "right_intervals": 0,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.empty_right.difference_is_empty.n10000",
+          "sum": 1694.7266301075267,
+          "min": 332.7076551971326,
+          "max": 341.90968100358424,
+          "mean": 338.94532602150537,
+          "median": 339.5605770609319,
+          "variance": 13.25856382355064,
+          "std_dev": 3.6412310862606123,
+          "std_dev_pct": 1.074282725476965,
+          "median_abs_dev": 2.3106453849462363,
+          "median_abs_dev_pct": 0.6804810514065083,
+          "quartiles": [
+            339.4296308243726,
+            339.5605770609319,
+            341.1190860215054
+          ],
+          "iqr": 1.6894551971327587,
+          "batch_size": 279,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 10000,
+      "right_intervals": 9999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.is_subset_of.n10000",
+          "sum": 0.063243246,
+          "min": 0.012447051999999998,
+          "max": 0.012865594000000001,
+          "mean": 0.0126486492,
+          "median": 0.01258269,
+          "variance": 4.093415920920015e-08,
+          "std_dev": 0.00020232191974474775,
+          "std_dev_pct": 1.599553569283491,
+          "median_abs_dev": 0.0002010968988000032,
+          "median_abs_dev_pct": 1.5982027595053456,
+          "quartiles": [
+            0.01248634,
+            0.01258269,
+            0.01286157
+          ],
+          "iqr": 0.00037522999999999897,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "first_uncovered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 10000,
+      "right_intervals": 9999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.first_uncovered.difference_is_empty.n10000",
+          "sum": 941.689871062271,
+          "min": 181.67267802197802,
+          "max": 200.1419989010989,
+          "mean": 188.33797421245418,
+          "median": 186.99463003663004,
+          "variance": 56.92362313111008,
+          "std_dev": 7.544774558004373,
+          "std_dev_pct": 4.005976271940521,
+          "median_abs_dev": 7.0175015153846365,
+          "median_abs_dev_pct": 3.7527823734884747,
+          "quartiles": [
+            182.2613901098901,
+            186.99463003663004,
+            190.619173992674
+          ],
+          "iqr": 8.357783882783906,
+          "batch_size": 546,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 10000,
+      "right_intervals": 9999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.is_subset_of.n10000",
+          "sum": 804.6630837438424,
+          "min": 156.03870706075526,
+          "max": 166.0088249589491,
+          "mean": 160.93261674876848,
+          "median": 161.41549425287357,
+          "variance": 20.251087970949378,
+          "std_dev": 4.500120884037381,
+          "std_dev_pct": 2.796276463373804,
+          "median_abs_dev": 6.8100721048275865,
+          "median_abs_dev_pct": 4.2189705123096335,
+          "quartiles": [
+            156.67372577996716,
+            161.41549425287357,
+            164.52633169129723
+          ],
+          "iqr": 7.852605911330073,
+          "batch_size": 609,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "last_uncovered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 10000,
+      "right_intervals": 9999,
+      "expected": false,
+      "actual": false,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.last_uncovered.difference_is_empty.n10000",
+          "sum": 927.2929586872588,
+          "min": 183.4413637065637,
+          "max": 188.5879637065637,
+          "mean": 185.45859173745174,
+          "median": 184.77193629343628,
+          "variance": 3.808440122471022,
+          "std_dev": 1.9515225139544308,
+          "std_dev_pct": 1.0522685930437472,
+          "median_abs_dev": 1.645889213513529,
+          "median_abs_dev_pct": 0.8907679632147669,
+          "quartiles": [
+            184.6096216216216,
+            184.77193629343628,
+            185.88207335907336
+          ],
+          "iqr": 1.2724517374517461,
+          "batch_size": 518,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "is_subset_of",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.is_subset_of.n10000",
+          "sum": 780.1012605015675,
+          "min": 154.24899122257054,
+          "max": 158.93771128526646,
+          "mean": 156.02025210031348,
+          "median": 155.38073197492164,
+          "variance": 3.3261820575020478,
+          "std_dev": 1.8237823492681489,
+          "std_dev_pct": 1.1689394964543096,
+          "median_abs_dev": 1.6779188394357505,
+          "median_abs_dev_pct": 1.0798757465671907,
+          "quartiles": [
+            155.01910031347964,
+            155.38073197492164,
+            156.51472570532917
+          ],
+          "iqr": 1.4956253918495293,
+          "batch_size": 638,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "covered",
+      "left_input_count": 10000,
+      "seed": 1592598566,
+      "implementation": "difference_is_empty",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "expected": true,
+      "actual": true,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "subset.covered.difference_is_empty.n10000",
+          "sum": 947.6862844859814,
+          "min": 181.3212444859813,
+          "max": 198.3594773831776,
+          "mean": 189.5372568971963,
+          "median": 189.9945663551402,
+          "variance": 52.51327337605912,
+          "std_dev": 7.246604265175456,
+          "std_dev_pct": 3.8233138876257797,
+          "median_abs_dev": 9.849574120373816,
+          "median_abs_dev_pct": 5.184134635704724,
+          "quartiles": [
+            183.35111962616824,
+            189.9945663551402,
+            194.65987663551402
+          ],
+          "iqr": 11.308757009345783,
+          "batch_size": 535,
+          "runs": 5
+        }
+      ]
+    }
+  ]
+}

@@ -277,3 +277,64 @@ test "review regressions cover crossing words and separated address families" {
     ),
   )
 }
+
+///|
+test "subset reuses a covering interval across separated source ranges" {
+  let source = @ipset.IpSet::from_cidrs([
+    "192.0.2.0/26", "192.0.2.128/26", "2001:db8::/126", "2001:db8::10/124",
+  ])
+  let covering = @ipset.IpSet::from_cidrs(["192.0.2.0/24", "2001:db8::/120"])
+  assert_true(source.is_subset_of(covering))
+  assert_false(covering.is_subset_of(source))
+  assert_true(@ipset.IpSet::empty().is_subset_of(source))
+  assert_false(source.is_subset_of(@ipset.IpSet::empty()))
+}
+
+///|
+test "subset detects first last and interior uncovered addresses" {
+  let source = @ipset.IpSet::from_cidrs(["192.0.2.0/24"])
+  for
+    (first, last) in [
+      ("192.0.2.1", "192.0.2.255"),
+      ("192.0.2.0", "192.0.2.254"),
+    ] {
+    let incomplete = @ipset.IpSet::from_ranges([
+      @ipset.Interval::new(
+        @ipset.Address::parse(first),
+        @ipset.Address::parse(last),
+      ),
+    ])
+    assert_false(source.is_subset_of(incomplete))
+    assert_true(incomplete.is_subset_of(source))
+  }
+  let split = @ipset.IpSet::from_ranges([
+    @ipset.Interval::new(
+      @ipset.Address::parse("192.0.2.0"),
+      @ipset.Address::parse("192.0.2.127"),
+    ),
+    @ipset.Interval::new(
+      @ipset.Address::parse("192.0.2.129"),
+      @ipset.Address::parse("192.0.2.255"),
+    ),
+  ])
+  assert_false(source.is_subset_of(split))
+}
+
+///|
+test "subset keeps mixed family boundaries and detects a late gap" {
+  let source = @ipset.IpSet::from_cidrs([
+    "255.255.255.255/32", "::/128", "::ffff:192.0.2.1/128", "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128",
+  ])
+  let all = @ipset.IpSet::from_cidrs(["0.0.0.0/0", "::/0"])
+  assert_true(source.is_subset_of(all))
+  let missing_first = @ipset.IpSet::from_cidrs(["::/0"])
+  assert_false(source.is_subset_of(missing_first))
+  let missing_last = @ipset.IpSet::from_cidrs([
+    "0.0.0.0/0", "::/128", "::ffff:192.0.2.1/128",
+  ])
+  assert_false(source.is_subset_of(missing_last))
+  let v4 = @ipset.IpSet::from_cidrs(["192.0.2.1/32"])
+  let mapped = @ipset.IpSet::from_cidrs(["::ffff:192.0.2.1/128"])
+  assert_false(v4.is_subset_of(mapped))
+  assert_false(mapped.is_subset_of(v4))
+}

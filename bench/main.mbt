@@ -225,6 +225,10 @@ fn run_case(
 ///|
 fn main {
   let smoke = @env.args().contains("--smoke")
+  if @env.args().contains("--subset") {
+    run_subset_suite(smoke)
+    return
+  }
   let sizes = if smoke { [100] } else { [100, 1000, 10000] }
   let profiles = if smoke {
     ["mixed"]
