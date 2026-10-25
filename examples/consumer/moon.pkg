@@ -1,0 +1,5 @@
+import {
+  "tc-adventureking/ipset" @net,
+}
+
+pkgtype(kind: "executable")

@@ -1,0 +1,95 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tc-adventureking/ipset"
+
+// Values
+
+// Errors
+pub(all) suberror IpError {
+  InvalidAddress(String)
+  InvalidPrefix(String)
+  InvalidRange(String)
+  HostBitsSet(String)
+} derive(Eq)
+pub fn IpError::equal(Self, Self) -> Bool
+pub fn IpError::not_equal(Self, Self) -> Bool
+pub fn IpError::output(Self, &Logger) -> Unit
+pub fn IpError::to_string(Self) -> String
+pub impl Show for IpError
+
+// Types and methods
+type Address derive(Eq)
+pub fn Address::compare(Self, Self) -> Int32
+pub fn Address::equal(Self, Self) -> Bool
+pub fn Address::family(Self) -> Family
+pub fn Address::next(Self) -> Self?
+pub fn Address::not_equal(Self, Self) -> Bool
+pub fn Address::op_ge(Self, Self) -> Bool
+pub fn Address::op_gt(Self, Self) -> Bool
+pub fn Address::op_le(Self, Self) -> Bool
+pub fn Address::op_lt(Self, Self) -> Bool
+pub fn Address::output(Self, &Logger) -> Unit
+pub fn Address::parse(String) -> Self raise IpError
+pub fn Address::previous(Self) -> Self?
+pub fn Address::to_string(Self) -> String
+pub fn Address::width(Self) -> Int32
+pub impl Compare for Address
+pub impl Show for Address
+
+type Cidr derive(Eq)
+pub fn Cidr::equal(Self, Self) -> Bool
+pub fn Cidr::last(Self) -> Address
+pub fn Cidr::network(Self) -> Address
+pub fn Cidr::new(Address, Int32, strict? : Bool) -> Self raise IpError
+pub fn Cidr::not_equal(Self, Self) -> Bool
+pub fn Cidr::output(Self, &Logger) -> Unit
+pub fn Cidr::parse(String, strict? : Bool) -> Self raise IpError
+pub fn Cidr::prefix(Self) -> Int32
+pub fn Cidr::to_string(Self) -> String
+pub impl Show for Cidr
+
+pub(all) enum Family {
+  V4
+  V6
+} derive(Compare, Eq)
+pub fn Family::compare(Self, Self) -> Int32
+pub fn Family::equal(Self, Self) -> Bool
+pub fn Family::not_equal(Self, Self) -> Bool
+pub fn Family::op_ge(Self, Self) -> Bool
+pub fn Family::op_gt(Self, Self) -> Bool
+pub fn Family::op_le(Self, Self) -> Bool
+pub fn Family::op_lt(Self, Self) -> Bool
+pub fn Family::output(Self, &Logger) -> Unit
+pub fn Family::to_string(Self) -> String
+pub impl Show for Family
+
+pub struct Interval {
+  // private fields
+} derive(Eq)
+pub fn Interval::equal(Self, Self) -> Bool
+pub fn Interval::first(Self) -> Address
+pub fn Interval::last(Self) -> Address
+pub fn Interval::new(Address, Address) -> Self raise IpError
+pub fn Interval::not_equal(Self, Self) -> Bool
+
+pub struct IpSet {
+  // private fields
+} derive(Eq)
+pub fn IpSet::cidrs(Self) -> Array[Cidr]
+pub fn IpSet::contains(Self, Address) -> Bool
+pub fn IpSet::difference(Self, Self) -> Self
+pub fn IpSet::empty() -> Self
+pub fn IpSet::equal(Self, Self) -> Bool
+pub fn IpSet::from_cidrs(Array[String]) -> Self raise IpError
+pub fn IpSet::from_ranges(Array[Interval]) -> Self
+pub fn IpSet::intersection(Self, Self) -> Self
+pub fn IpSet::intervals(Self) -> Array[Interval]
+pub fn IpSet::is_empty(Self) -> Bool
+pub fn IpSet::is_subset_of(Self, Self) -> Bool
+pub fn IpSet::not_equal(Self, Self) -> Bool
+pub fn IpSet::overlaps(Self, Self) -> Bool
+pub fn IpSet::symmetric_difference(Self, Self) -> Self
+pub fn IpSet::union(Self, Self) -> Self
+
+// Type aliases
+
+// Traits
