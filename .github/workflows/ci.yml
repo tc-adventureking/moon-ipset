@@ -1,0 +1,34 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+      - name: Install MoonBit official stable toolchain
+        run: |
+          curl --fail --show-error --silent --location https://cli.moonbitlang.com/install/unix.sh -o "$RUNNER_TEMP/moon-install.sh"
+          bash "$RUNNER_TEMP/moon-install.sh"
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Compile, test, and compare independent oracles
+        run: bash scripts/verify.sh work/ci
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: verification-evidence
+          path: work/ci
+          if-no-files-found: warn
