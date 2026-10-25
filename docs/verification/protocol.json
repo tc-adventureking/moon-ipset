@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "responses": 7,
+  "checks": 7,
+  "cases": [
+    "CRLF and blank lines",
+    "malformed JSON recovery",
+    "non-object request",
+    "duplicate JSON keys",
+    "subsequent valid requests",
+    "final line without newline"
+  ]
+}

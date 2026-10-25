@@ -1,0 +1,6 @@
+Allowlist minus exclusions:
+10.0.0.128/25
+2001:db8::/128
+2001:db8::2/127
+Contains 10.0.0.200: true
+Contains 2001:db8::1: false

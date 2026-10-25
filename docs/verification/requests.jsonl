@@ -1,0 +1,5 @@
+{"ok":true,"cidrs":["10.0.0.0/24","2001:db8::/64"]}
+{"ok":true,"cidrs":["10.0.0.128/25","2001:db8::/128","2001:db8::2/127"]}
+{"ok":true,"value":true}
+{"ok":true,"cidrs":["255.255.255.254/31"]}
+{"ok":false,"error":"CIDR has nonzero host bits: 2001:db8::1/64"}
