@@ -50,6 +50,41 @@ Empty sets are valid. Missing/wrongly typed required fields and unknown
 operations are errors. An invalid item rejects its whole request; partial
 success is not returned. Parsing does not silently coerce numbers to strings.
 
+## CIDR file CLI
+
+`node bin/ipset.mjs` is the stable source entry. It locates the repository,
+incrementally builds the JS CLI, and retains the caller's working directory and
+stdin. Build output goes to stderr. `--help` does not require a build.
+
+- `normalize FILE [--strict] [--json]`: emit a minimal CIDR cover, one CIDR per
+  line, or JSON `{"cidrs":[...]}`.
+- `diff OLD NEW [--strict] [--json]`: emit addresses added (`NEW - OLD`) and
+  removed (`OLD - NEW`). JSON is `{"added":[...],"removed":[...]}`; text always
+  contains `Added:` and `Removed:` headings followed by their CIDRs.
+- No arguments or `jsonl` preserves the JSON Lines protocol above.
+- `--` ends option parsing. `-` reads stdin and may occur at most once. Help
+  before `--` takes precedence over other arguments; after it, `--help` is a
+  literal filename.
+
+File inputs are UTF-8, with an optional initial BOM. Lines may end in LF or CRLF;
+surrounding whitespace, blank lines and text after `#` are ignored. Each remaining
+line must contain exactly one address or CIDR. Bare addresses are singleton
+`/32` or `/128` blocks. Both modes reject invalid addresses, leading-zero IPv4,
+zone identifiers and malformed UTF-8. Strict mode additionally rejects CIDR
+host bits; the default clears them, so different spellings can compare equal.
+
+All inputs are validated before normal output. Only the first error is reported.
+Address and encoding errors include the filename and physical line number;
+filesystem failures include the filename and cause. Failures leave stdout empty.
+Successful output uses LF, IPv4 first, then increasing address order. Empty sets
+are valid and equivalent rules compare equal regardless of order or duplication.
+
+Exit status: normalize succeeds with `0`; diff uses `0` for equal sets and `1`
+for changes. Usage, input, build, launch and internal failures use `2`. A CI check
+must distinguish `1` (valid changes to review) from `2` (unable to compare).
+The original JSONL mode retains per-request `ok:false` responses and continues.
+File operations only read and compare address sets; they do not apply system rules.
+
 ## Validation obligations
 
 - MoonBit unit and public-API tests cover syntax, boundaries, set algebra and

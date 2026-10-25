@@ -127,14 +127,14 @@ fn handle_line(text : String) -> Json {
 }
 
 ///|
-extern "js" fn read_stdin() -> String =
-  #| () => process.getBuiltinModule("fs").readFileSync(0, "utf8")
-
-///|
 fn main {
-  for line in read_stdin().split("\n") {
-    if !line.trim().is_empty() {
-      println(handle_line(line.to_owned()).stringify())
-    }
+  let result = run_cli(
+    required_strings(@json.parse(host_arguments()), "args"),
+    read_text,
+  ) catch {
+    error => { stdout: "", stderr: "\{error}\n", status: 2, }
   }
+  host_stdout(result.stdout)
+  host_stderr(result.stderr)
+  host_status(result.status)
 }

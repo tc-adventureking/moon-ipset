@@ -1,6 +1,37 @@
 # 使用场景与预期结果
 
-本文是技术使用说明。下列结果依据行为规范计算，并使用 Python 标准库 `ipaddress` 独立核对；它们不是 MoonBit 程序的实际运行记录。程序验证应执行仓库测试与 CLI，并保存命令输出。
+以下使用示例数据演示地址集合操作。文件 diff 场景的输入、输出和退出码由 `scripts/check_files.py` 自动验证。
+
+## 比较网段清单
+
+文件每行一个 IP 或 CIDR，支持空行和 `#` 注释。仓库自带一组双栈变更：
+
+```bash
+node bin/ipset.mjs normalize examples/policies/new.txt
+node bin/ipset.mjs diff examples/policies/old.txt examples/policies/new.txt --json
+```
+
+diff 的退出码 `1` 表示存在有效变化，此例输出：
+
+```json
+{"added":["10.0.1.10/32","2001:db8:1::/126"],"removed":["10.0.0.128/25","2001:db8::/127"]}
+```
+
+CI 可以保留变更报告，同时把输入或运行错误作为失败：
+
+```bash
+status=0
+node bin/ipset.mjs diff old.txt new.txt --json > changes.json || status=$?
+case "$status" in
+  0) echo 'No address changes' ;;
+  1) cat changes.json ;;
+  *) exit "$status" ;;
+esac
+```
+
+加 `--strict` 可拒绝主机位非零的 CIDR；默认模式先归一化。文件错误报告第一处错误的文件与行号，不输出部分结果。集合比较不保留规则顺序，也不会修改系统防火墙。
+
+## JSONL 场景
 
 首先在仓库根目录构建 JSONL CLI：
 
@@ -11,7 +42,7 @@ moon build --deny-warn --release --target js
 将各节请求放入文本文件，每行一个 JSON 对象，再执行：
 
 ```bash
-node _build/js/release/build/tc-adventureking/ipset/cmd/ipset/ipset.js < requests.jsonl
+node bin/ipset.mjs jsonl < requests.jsonl
 ```
 
 CLI 在 stdin 关闭后处理全部请求。响应中的 JSON 键顺序可以不同；CIDR 数组顺序有定义。所有地址均为示例输入，不会触发网络连接或修改系统规则。
