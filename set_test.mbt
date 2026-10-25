@@ -253,3 +253,27 @@ test "exhaustive eight-address sets against bitmask oracle in both families" {
     }
   }
 }
+
+///|
+test "review regressions cover crossing words and separated address families" {
+  for
+    (first, last, expected) in [
+      ("::ffff:ffff", "::1:0:0", ["::ffff:ffff/128", "::1:0:0/128"]),
+      ("0:0:0:1::", "0:0:0:1:ffff:ffff:ffff:ffff", ["0:0:0:1::/64"]),
+    ] {
+    let set = @ipset.IpSet::from_ranges([
+      @ipset.Interval::new(
+        @ipset.Address::parse(first),
+        @ipset.Address::parse(last),
+      ),
+    ])
+    assert_eq(set.cidrs().map(c => c.to_string()), expected)
+  }
+  let boundaries = @ipset.IpSet::from_cidrs(["255.255.255.255/32", "::/128"])
+  assert_eq(boundaries.intervals().length(), 2)
+  assert_true(
+    !@ipset.IpSet::from_cidrs(["1.2.3.4/32"]).contains(
+      @ipset.Address::parse("::ffff:1.2.3.4"),
+    ),
+  )
+}

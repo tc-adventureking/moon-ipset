@@ -100,29 +100,29 @@ pub fn Address::width(self : Address) -> Int32 {
 }
 
 ///|
-fn parse_v4_word(text : String) -> UInt32 raise IpError {
+fn parse_v4_word(text : String, original : String) -> UInt32 raise IpError {
   let parts = text.split(".").to_array()
   if parts.length() != 4 {
-    raise InvalidAddress(text)
+    raise InvalidAddress(original)
   }
   let mut result = 0U
   for part in parts {
     if part.length() == 0 || part.length() > 3 {
-      raise InvalidAddress(text)
+      raise InvalidAddress(original)
     }
     if part.length() > 1 && part[0].to_int() == 48 {
-      raise InvalidAddress(text)
+      raise InvalidAddress(original)
     }
     let mut value = 0U
     for unit in part.code_units() {
       let digit = unit.to_int() - 48
       if digit < 0 || digit > 9 {
-        raise InvalidAddress(text)
+        raise InvalidAddress(original)
       }
       value = value * 10U + digit.reinterpret_as_uint()
     }
     if value > 255U {
-      raise InvalidAddress(text)
+      raise InvalidAddress(original)
     }
     result = (result << 8) | value
   }
@@ -149,7 +149,7 @@ fn parse_v6_groups(
       if !allow_v4 || index != groups.length() - 1 {
         raise InvalidAddress(original)
       }
-      let word = parse_v4_word(group)
+      let word = parse_v4_word(group, original)
       result.push(word >> 16)
       result.push(word & 65535U)
     } else {
@@ -183,7 +183,7 @@ pub fn Address::parse(text : String) -> Address raise IpError {
     raise InvalidAddress(text)
   }
   if !text.contains(":") {
-    return { family_: V4, a: 0U, b: 0U, c: 0U, d: parse_v4_word(text), }
+    return { family_: V4, a: 0U, b: 0U, c: 0U, d: parse_v4_word(text, text), }
   }
   let groups : Array[UInt32] = match text.split_once("::") {
     None => {

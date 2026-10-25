@@ -1,4 +1,18 @@
 ///|
+test "embedded IPv4 errors retain the original IPv6 input" {
+  for text in ["::ffff:1.2.3.256", "1:2:3:4:5:6:1.2.3", "::ffff:01.2.3.4"] {
+    let original = try {
+      let _ = Address::parse(text)
+      "unexpected success"
+    } catch {
+      InvalidAddress(value) => value
+      _ => "unexpected error variant"
+    }
+    assert_eq(original, text)
+  }
+}
+
+///|
 test "internal trailing zeros handles zero and each word boundary" {
   assert_eq(Address::parse("0.0.0.0").trailing_zeros(), 32)
   assert_eq(Address::parse("::").trailing_zeros(), 128)
