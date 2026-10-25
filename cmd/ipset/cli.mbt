@@ -96,10 +96,7 @@ fn parse_manifest(
   filename : String,
   strict : Bool,
 ) -> @net.IpSet raise RequestError {
-  let content = match content.strip_prefix("\u{FEFF}") {
-    Some(rest) => rest.to_owned()
-    None => content
-  }
+  let content = strip_initial_bom(content)
   let ranges : Array[@net.Interval] = []
   let mut line_number = 0
   for line in content.split("\n") {
@@ -125,6 +122,14 @@ fn parse_manifest(
     ranges.push(range)
   }
   @net.IpSet::from_ranges(ranges)
+}
+
+///|
+fn strip_initial_bom(content : String) -> String {
+  match content.strip_prefix("\u{FEFF}") {
+    Some(rest) => rest.to_owned()
+    None => content
+  }
 }
 
 ///|
@@ -155,7 +160,7 @@ fn execute_cli(
     Help => { stdout: usage(), stderr: "", status: 0, }
     Jsonl => {
       let lines : Array[String] = []
-      for line in reader("-").split("\n") {
+      for line in strip_initial_bom(reader("-")).split("\n") {
         if !line.trim().is_empty() {
           lines.push(handle_line(line.to_owned()).stringify())
         }
@@ -210,43 +215,69 @@ extern "js" fn host_arguments() -> String =
   #| () => JSON.stringify({args: process.argv.slice(2)})
 
 ///|
-extern "js" fn host_read_file(filename : String) -> String =
+#external
+priv type FileReadResult
+
+///|
+extern "js" fn FileReadResult::is_ok(self : FileReadResult) -> Bool =
+  #| (result) => result.ok
+
+///|
+extern "js" fn FileReadResult::text(self : FileReadResult) -> String =
+  #| (result) => result.text
+
+///|
+extern "js" fn FileReadResult::error(self : FileReadResult) -> String =
+  #| (result) => result.error
+
+///|
+extern "js" fn FileReadResult::line(self : FileReadResult) -> String =
+  #| (result) => result.line
+
+///|
+extern "js" fn host_read_file(filename : String) -> FileReadResult =
   #| (filename) => {
   #|   try {
   #|     const bytes = process.getBuiltinModule("fs").readFileSync(filename === "-" ? 0 : filename);
   #|     const decoder = new TextDecoder("utf-8", {fatal: true, ignoreBOM: true});
   #|     try {
-  #|       return JSON.stringify({ok: true, text: decoder.decode(bytes)});
-  #|     } catch {
+  #|       return {ok: true, text: decoder.decode(bytes), error: "", line: ""};
+  #|     } catch (error) {
+  #|       if (!(error instanceof TypeError)) throw error;
+  #|       if ((bytes[0] === 0xff && bytes[1] === 0xfe) || (bytes[0] === 0xfe && bytes[1] === 0xff)) {
+  #|         return {ok: false, text: "", line: "1", error: "UTF-16 input is not supported; save as UTF-8"};
+  #|       }
   #|       // Find the first physical line only on the uncommon decoding-error path.
   #|       for (let start = 0, line = 1; start <= bytes.length; line++) {
   #|         const newline = bytes.indexOf(10, start);
   #|         const end = newline < 0 ? bytes.length : newline;
   #|         try { decoder.decode(bytes.subarray(start, end)); }
-  #|         catch { return JSON.stringify({ok: false, line: String(line), error: "invalid UTF-8"}); }
+  #|         catch (error) {
+  #|           if (!(error instanceof TypeError)) throw error;
+  #|           return {ok: false, text: "", line: String(line), error: "invalid UTF-8"};
+  #|         }
   #|         if (end === bytes.length) break;
   #|         start = end + 1;
   #|       }
-  #|       return JSON.stringify({ok: false, error: "invalid UTF-8"});
+  #|       return {ok: false, text: "", error: "invalid UTF-8", line: ""};
   #|     }
   #|   } catch (error) {
-  #|     return JSON.stringify({ok: false, error: error instanceof Error ? error.message : String(error)});
+  #|     return {ok: false, text: "", error: error instanceof Error ? error.message : String(error), line: ""};
   #|   }
   #| }
 
 ///|
 fn read_text(filename : String) -> String raise {
-  let response = @json.parse(host_read_file(filename))
-  match field_value(response, "ok") {
-    Some(True) => required_string(response, "text")
-    _ => {
-      let message = required_string(response, "error")
-      match field_value(response, "line") {
-        Some(String(line)) =>
-          raise InvalidRequest("\{filename}:\{line}: \{message}")
-        _ => raise InvalidRequest("\{filename}: \{message}")
-      }
-    }
+  let response = host_read_file(filename)
+  if response.is_ok() {
+    return response.text()
+  }
+  let message = response.error()
+  let line = response.line()
+  if line.is_empty() {
+    raise InvalidRequest("\{filename}: \{message}")
+  } else {
+    raise InvalidRequest("\{filename}:\{line}: \{message}")
   }
 }
 

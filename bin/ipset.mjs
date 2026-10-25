@@ -4,6 +4,15 @@ import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Help and launch diagnostics run before the child runtime can install guards.
+process.stderr.on('error', () => { process.exitCode = 2; });
+process.stdout.on('error', (error) => {
+  if (error.code !== 'EPIPE') {
+    process.exitCode = 2;
+    process.stderr.write(`ipset: output error: ${error.message}\n`);
+  }
+});
+
 const args = process.argv.slice(2);
 const optionEnd = args.indexOf('--');
 const options = optionEnd < 0 ? args : args.slice(0, optionEnd);

@@ -34,6 +34,9 @@ JSON object. Successful results contain `ok: true`; errors contain `ok: false`
 and an explanatory `error` string. Diagnostics must not pollute stdout. The
 process continues after a malformed request.
 
+One UTF-8 BOM at the start of the complete input is ignored. A BOM on a later
+line or a second BOM is part of that request and is not silently stripped.
+
 | op | input fields | result fields |
 | --- | --- | --- |
 | `parse` | `address` string | `address` canonical string, `family` 4 or 6 |
@@ -72,10 +75,15 @@ line must contain exactly one address or CIDR. Bare addresses are singleton
 `/32` or `/128` blocks. Both modes reject invalid addresses, leading-zero IPv4,
 zone identifiers and malformed UTF-8. Strict mode additionally rejects CIDR
 host bits; the default clears them, so different spellings can compare equal.
+UTF-16 input with a BOM is rejected with an instruction to save it as UTF-8.
 
 All inputs are validated before normal output. Only the first error is reported.
 Address and encoding errors include the filename and physical line number;
-filesystem failures include the filename and cause. Failures leave stdout empty.
+filesystem failures include the filename and cause. Input and parsing failures
+leave stdout empty. Output errors return `2`, except an expected closed downstream
+pipe (`EPIPE`), which remains quiet and preserves the operation's status. A failing
+output device may already have received partial bytes, so consumers must check
+the exit status.
 Successful output uses LF, IPv4 first, then increasing address order. Empty sets
 are valid and equivalent rules compare equal regardless of order or duplication.
 

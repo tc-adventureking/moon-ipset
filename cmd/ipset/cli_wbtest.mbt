@@ -168,3 +168,33 @@ test "JSONL remains available as default and explicit command" {
     Some(Json::boolean(false)),
   )
 }
+
+///|
+test "JSONL strips one BOM only at the start of input" {
+  let valid = "{\"op\":\"parse\",\"address\":\"::1\"}"
+  for arguments in [[], ["jsonl"]] {
+    let result = run_cli(arguments, _ => {
+      "\u{FEFF}" + valid + "\r\n\u{FEFF}" + valid + "\n" + valid
+    })
+    assert_eq(result.status, 0)
+    assert_eq(result.stderr, "")
+    let lines = result.stdout.split("\n").to_array()
+    assert_eq(lines.length(), 4)
+    for i in 0..<3 {
+      assert_eq(
+        field_value(@json.parse(lines[i].to_owned()), "ok"),
+        Some(Json::boolean(i != 1)),
+      )
+    }
+  }
+  let repeated = run_cli([], _ => "\u{FEFF}\u{FEFF}" + valid)
+  assert_eq(
+    field_value(@json.parse(repeated.stdout), "ok"),
+    Some(Json::boolean(false)),
+  )
+  let after_blank = run_cli([], _ => "\n\u{FEFF}" + valid)
+  assert_eq(
+    field_value(@json.parse(after_blank.stdout), "ok"),
+    Some(Json::boolean(false)),
+  )
+}

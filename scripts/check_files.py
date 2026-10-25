@@ -147,6 +147,30 @@ def main() -> int:
                     raise AssertionError('launcher and compiled CLI help drifted')
                 run(['normalize', old], status=2, program=launcher, cwd=temp, env=minimal)
                 passed.append('launcher help works without MoonBit; missing compiler reports error')
+                if Path('/dev/full').exists():
+                    with open('/dev/full', 'wb') as sink:
+                        failed_output = subprocess.run(launcher + ['--help'], stdin=subprocess.DEVNULL,
+                            stdout=sink, stderr=subprocess.PIPE, text=True, encoding='utf-8',
+                            cwd=temp, env=minimal, timeout=90, check=False)
+                    if failed_output.returncode != 2 or 'ENOSPC' not in failed_output.stderr:
+                        raise AssertionError(f'help output failure must exit 2: {failed_output}')
+                    with open('/dev/full', 'wb') as sink:
+                        failed_diagnostic = subprocess.run(launcher + ['normalize', old], stdin=subprocess.DEVNULL,
+                            stdout=subprocess.PIPE, stderr=sink, text=True, encoding='utf-8',
+                            cwd=temp, env=minimal, timeout=90, check=False)
+                    if failed_diagnostic.returncode != 2 or failed_diagnostic.stdout:
+                        raise AssertionError('failed launch diagnostic must retain exit 2 and empty stdout')
+                    passed.append('launcher stdout and stderr write failures exit 2 instead of 1')
+                if os.name == 'posix':
+                    read_fd, write_fd = os.pipe()
+                    os.close(read_fd)
+                    with os.fdopen(write_fd, 'wb') as sink:
+                        closed_pipe = subprocess.run(launcher + ['--help'], stdin=subprocess.DEVNULL,
+                            stdout=sink, stderr=subprocess.PIPE, text=True, encoding='utf-8',
+                            cwd=temp, env=minimal, timeout=90, check=False)
+                    if closed_pipe.returncode != 0 or closed_pipe.stderr:
+                        raise AssertionError('early closed help pipe must remain quiet and successful')
+                    passed.append('launcher EPIPE remains quiet when the consumer closes stdout early')
                 runtime = Path(launcher[-1]).parent / 'runtime.mjs'
                 failure = write('host-failure.mjs', 'throw new Error("synthetic-host-failure");\n')
                 caught = run([failure], status=2, program=[launcher[0], '--import', runtime.as_uri()], cwd=temp)

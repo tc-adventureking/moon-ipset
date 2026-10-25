@@ -1,5 +1,7 @@
 # 性能基准
 
+文件 CLI 的进程、I/O 与内存测量见 [CLI_BENCHMARKS.md](CLI_BENCHMARKS.md)。
+
 这是单机合成输入的 native release 测量，不代表生产负载，也没有与其他库比较。完整的 60 项通用操作及 24 项子集判断数据、波动统计、环境和源码 SHA-256 分别见 [native.json](../bench/results/native.json) 与 [subset-native.json](../bench/results/subset-native.json)。
 
 在仓库根目录运行（需要 MoonBit、native C 编译器和 Python 3）：
