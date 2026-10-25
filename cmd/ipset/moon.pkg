@@ -1,0 +1,8 @@
+import {
+  "tc-adventureking/ipset" @net,
+  "moonbitlang/core/json",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "js"
