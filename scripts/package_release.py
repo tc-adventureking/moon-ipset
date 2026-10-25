@@ -130,6 +130,8 @@ def main() -> int:
     parser.add_argument("--moon", default="moon", help="Moon executable name or path")
     parser.add_argument("--node", default="node", help="Node executable name or path")
     parser.add_argument("--timeout", type=float, default=240, help="timeout per build/check in seconds")
+    parser.add_argument("--allow-dirty", action="store_true",
+                        help="allow development packaging from uncommitted sources; never use for a release")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
     output = args.output.resolve()
@@ -137,6 +139,14 @@ def main() -> int:
     require(not output.is_relative_to(repo) or output.is_relative_to(repo / "_build"),
             "--output must be outside the repository or under _build to prevent packaging previous releases")
     moon, node, git = executable(args.moon), executable(args.node), executable("git")
+    core = Path(os.environ.get("MOON_HOME", str(Path(moon).parent.parent))) / "lib" / "core"
+    core_notices = {}
+    for name in ("LICENSE", "NOTICE"):
+        source = core / name
+        require(source.is_file(), f"MoonBit core {name} is missing from the selected toolchain")
+        content = source.read_bytes()
+        require(bool(content.strip()), f"MoonBit core {name} is empty")
+        core_notices[f"third_party/moonbit-core/{name}"] = content
     module_source = (repo / "moon.mod").read_text(encoding="utf-8")
     module, version = (manifest_string(module_source, key) for key in ("name", "version"))
     require(re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", version)
@@ -145,11 +155,12 @@ def main() -> int:
     build_env["MOON_WORK"] = "off"
 
     def run(command: list[str], *, cwd: Path, env: dict[str, str] | None = None,
-            status: int = 0, label: str) -> subprocess.CompletedProcess[str]:
+            status: int = 0, label: str, input_text: str | None = None) -> subprocess.CompletedProcess[str]:
         print(f"[release] {label}", file=sys.stderr, flush=True)
         result = subprocess.run(command, cwd=cwd, env=env or build_env,
                                 capture_output=True, text=True, encoding="utf-8", errors="replace",
-                                stdin=subprocess.DEVNULL, timeout=args.timeout, check=False)
+                                stdin=subprocess.DEVNULL if input_text is None else None,
+                                input=input_text, timeout=args.timeout, check=False)
         if result.returncode != status:
             detail = (result.stderr + "\n" + result.stdout).strip()[-6000:]
             raise RuntimeError(f"{label}: exit {result.returncode}, expected {status}\n{detail}")
@@ -157,6 +168,10 @@ def main() -> int:
 
     source_head = run([git, "rev-parse", "HEAD"], cwd=repo, label="read source revision").stdout.strip()
     require(re.fullmatch(r"[0-9a-f]{40,64}", source_head) is not None, "invalid source revision")
+    source_dirty = bool(run([git, "status", "--porcelain", "--untracked-files=normal"],
+                            cwd=repo, label="check source worktree").stdout.strip())
+    require(args.allow_dirty or not source_dirty,
+            "source worktree is dirty; commit changes before release or use --allow-dirty for development")
     node_version = run([node, "--version"], cwd=repo, label="read Node version").stdout.strip()
     node_numbers = re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)", node_version)
     require(node_numbers is not None and tuple(map(int, node_numbers.groups())) >= (22, 3, 0),
@@ -227,6 +242,8 @@ def main() -> int:
         readme = f"""moon-ipset {version} portable CLI
 
 Requires Node.js 22.3.0 or newer. MoonBit is not required at runtime.
+Project code is MIT; compiled MoonBit core portions retain their own license.
+See THIRD_PARTY_NOTICES.txt and third_party/moonbit-core/.
 Extract every file into the same directory. From any working directory:
 
   node /path/to/ipset.mjs --help
@@ -247,6 +264,16 @@ The library ZIP is a separate MoonBit source package, not a Registry installatio
                 "private": True, "type": "commonjs", "engines": {"node": ">=22.3.0"}}, indent=2) + "\n").encode(),
             "LICENSE": (repo / "LICENSE").read_bytes(),
             "README.txt": readme.encode(),
+            "THIRD_PARTY_NOTICES.txt": (
+                "The compiled ipset.js includes portions of MoonBit core.\n"
+                "MoonBit core is distributed under Apache-2.0. Its full LICENSE\n"
+                "and upstream NOTICE are retained in third_party/moonbit-core/.\n"
+                "The upstream NOTICE is reproduced in full, including notices\n"
+                "for core components that may not be linked into this program.\n"
+                "Project source code remains MIT (see LICENSE). Node.js is a\n"
+                "separately installed runtime and is not bundled here.\n"
+            ).encode(),
+            **core_notices,
         }
         write_cli_archive(cli, files)
         cli_members = archive_members(cli)
@@ -254,6 +281,11 @@ The library ZIP is a separate MoonBit source package, not a Registry installatio
         portable = verification / "portable"
         with zipfile.ZipFile(cli) as zipped:
             zipped.extractall(portable)
+        for name, expected in core_notices.items():
+            require((portable / name).read_bytes() == expected,
+                    f"portable archive does not preserve upstream notice: {name}")
+            require((core / PurePosixPath(name).name).read_bytes() == expected,
+                    "MoonBit core notices changed while packaging")
         caller = verification / "caller"
         caller.mkdir()
         (caller / "old.txt").write_text("192.0.2.0/25\n2001:db8::/126\n", encoding="utf-8")
@@ -275,6 +307,16 @@ The library ZIP is a separate MoonBit source package, not a Registry installatio
                     env=runtime_env, label="portable unchanged diff exits 0")
         require(json.loads(equal.stdout) == {"added": [], "removed": []} and not equal.stderr,
                 "portable equal diff output differs")
+        stdin_text = (caller / "old.txt").read_text(encoding="utf-8")
+        normalized = run(command + ["normalize", "-", "--json"], cwd=caller, env=runtime_env,
+                         input_text=stdin_text, label="portable normalize from stdin")
+        require(json.loads(normalized.stdout) == {"cidrs": ["192.0.2.0/25", "2001:db8::/126"]}
+                and not normalized.stderr, "portable stdin normalization differs")
+        piped_diff = run(command + ["diff", "-", "new.txt", "--json"], cwd=caller,
+                         env=runtime_env, input_text=stdin_text, status=1,
+                         label="portable diff with stdin and a relative file")
+        require(piped_diff.stdout == changed.stdout and not piped_diff.stderr,
+                "portable stdin diff differs from the equivalent file diff")
         invalid = run(command + ["diff", "old.txt", "bad.txt", "--json"], cwd=caller,
                       env=runtime_env, status=2, label="portable invalid input exits 2")
         require(not invalid.stdout and "bad.txt:2" in invalid.stderr,
@@ -294,22 +336,30 @@ The library ZIP is a separate MoonBit source package, not a Registry installatio
             finally:
                 backup.rename(missing_file)
 
-        dirty = bool(run([git, "status", "--porcelain"], cwd=repo,
+        final_head = run([git, "rev-parse", "HEAD"], cwd=repo, label="verify source revision is unchanged").stdout.strip()
+        require(final_head == source_head, "source revision changed while packaging")
+        dirty = bool(run([git, "status", "--porcelain", "--untracked-files=normal"], cwd=repo,
                          label="record whether packaged source has uncommitted changes").stdout.strip())
+        require(args.allow_dirty or not dirty, "source worktree changed while packaging; no assets replaced")
+        dirty = source_dirty or dirty
         manifest = {
             "schema_version": 1, "status": "passed", "module": module, "version": version,
-            "source_head": source_head, "source_dirty": dirty,
+            "source_head": source_head, "source_dirty": dirty, "release_ready": not dirty,
             "toolchain": {"moon": moon_version, "node": node_version},
+            "bundled_notices": {name: hashlib.sha256(content).hexdigest()
+                                for name, content in core_notices.items()},
             "artifacts": [{"file": artifact.name, "sha256": digest(artifact), "bytes": artifact.stat().st_size}
                           for artifact in (library, cli)],
             "library_members": library_members, "cli_members": sorted(cli_members),
             "verification": {
                 "official_library_zip_copied_unchanged": True,
                 "library_archive_exclusions": "passed",
+                "portable_core_license_and_notice": "preserved byte-for-byte from selected toolchain",
                 "unpacked_library_direct_check": "wasm-gc, deny-warn, passed",
                 "independent_archive_consumer": {"target": "wasm-gc", "passed": 1, "failed": 0},
                 "portable_cli": {"node_path": "absolute", "PATH": "", "caller_cwd_preserved": True,
                                  "help_exit": 0, "changed_diff_exit": 1, "unchanged_diff_exit": 0,
+                                 "stdin_normalize_exit": 0, "stdin_diff_exit": 1,
                                  "invalid_input_exit": 2, "missing_runtime_exit": 2,
                                  "missing_compiled_entry_exit": 2},
                 "registry_installation": "not performed; local archive verification only",
@@ -322,6 +372,7 @@ The library ZIP is a separate MoonBit source package, not a Registry installatio
         for path in (library, cli, metadata, sums):
             os.replace(path, output / path.name)
         print(json.dumps({"status": "passed", "version": version,
+                          "source_dirty": dirty, "release_ready": not dirty,
                           "artifacts": [library.name, cli.name],
                           "manifest": "manifest.json", "checksums": "SHA256SUMS",
                           "registry_installation": False}, ensure_ascii=False))

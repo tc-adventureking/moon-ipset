@@ -58,4 +58,4 @@ Python 未作为项目运行时依赖，也未把 Python `ipaddress` 实现源�
 | Node.js | 执行 JS CLI、通过内建 fs 读取 stdin | 宿主运行时，遵守其自身及捆绑组件许可。 |
 | Python 标准库 | 独立验证及文档预期值核对 | 开发期工具，遵守 Python 自身许可。 |
 
-“零第三方包依赖”指库不下载外部 Mooncakes 包，并不表示标准库、编译工具链或宿主运行时没有各自的许可证。分发工具链或运行时副本时，应同时保留它们要求的许可文件；本仓库不捆绑这些运行时。
+“零第三方包依赖”指库不下载外部 Mooncakes 包，并不表示标准库、编译工具链或宿主运行时没有各自的许可证。本仓库不捆绑 Node.js、Python 或编译器。便携 CLI 的编译产物含 MoonBit core 代码；打包脚本从实际工具链复制完整 `LICENSE` 和 `NOTICE` 至 `third_party/moonbit-core/`，逐字节验证并在 manifest 中记录摘要。上游 NOTICE 完整保留，包括可能未链接到本程序的组件说明。

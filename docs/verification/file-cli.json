@@ -19,10 +19,12 @@
     "stable launcher works outside repository and preserves diff exit code",
     "launcher rebuild preserves relative paths and stdin",
     "launcher help works without MoonBit; missing compiler reports error",
+    "launcher stdout and stderr write failures exit 2 instead of 1",
+    "launcher EPIPE remains quiet when the consumer closes stdout early",
     "unexpected host exceptions cannot masquerade as diff changes",
     "bootstrap maps missing and malformed runtime or compiled entry to exit 2",
     "bootstrap preserves argument positions cwd stdin and valid exit 1",
     "legacy no-argument JSONL behavior remains intact"
   ],
-  "passed_checks": 22
+  "passed_checks": 24
 }

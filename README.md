@@ -80,4 +80,4 @@ bash scripts/verify.sh
 
 ## 许可
 
-[MIT](LICENSE)
+[MIT](LICENSE)。便携 CLI 包含 MoonBit core 的许可与 NOTICE，见 [依赖说明](docs/PROVENANCE.md)。

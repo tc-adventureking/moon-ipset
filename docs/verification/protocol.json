@@ -1,13 +1,22 @@
 {
   "status": "passed",
-  "responses": 7,
-  "checks": 7,
+  "responses": 23,
+  "checks": 15,
   "cases": [
-    "CRLF and blank lines",
-    "malformed JSON recovery",
-    "non-object request",
-    "duplicate JSON keys",
-    "subsequent valid requests",
-    "final line without newline"
+    "CRLF, blanks, malformed/non-object/duplicate-key recovery, final line without newline",
+    "initial BOM accepted; later BOM rejected (default)",
+    "initial BOM accepted; later BOM rejected (['jsonl'])",
+    "only one initial BOM is stripped",
+    "BOM after blank line is not initial",
+    "100000 nested arrays: preserve preceding and following response",
+    "100000 nested objects: preserve preceding and following response",
+    "utf-16le BOM stdin diagnostic",
+    "utf-16le BOM file diagnostic",
+    "utf-16be BOM stdin diagnostic",
+    "utf-16be BOM file diagnostic",
+    "invalid UTF-8 retains physical line diagnostic",
+    "decoder RangeError on call 0 is not mislabeled UTF-8",
+    "decoder Error on call 0 is not mislabeled UTF-8",
+    "decoder RangeError on call 1 is not mislabeled UTF-8"
   ]
 }

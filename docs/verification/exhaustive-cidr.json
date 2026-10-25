@@ -5,7 +5,7 @@
   "environment": {
     "python": "3.14.4",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
-    "started_utc": "2026-10-25T18:02:33.768377+00:00"
+    "started_utc": "2026-10-25T18:31:51.676245+00:00"
   },
   "bits": 4,
   "addresses_per_universe": 16,
@@ -22,5 +22,5 @@
   },
   "subprocesses": 64,
   "batch_size": 2048,
-  "elapsed_seconds": 47.097
+  "elapsed_seconds": 39.884
 }

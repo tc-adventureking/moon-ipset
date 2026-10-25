@@ -3,6 +3,14 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 report_dir="${1:-work/verification}"
+package_options=()
+if [ "$#" -gt 2 ] || { [ -n "${2:-}" ] && [ "$2" != "--allow-dirty" ]; }; then
+  echo 'Usage: bash scripts/verify.sh [REPORT_DIR] [--allow-dirty]' >&2
+  exit 2
+fi
+if [ "${2:-}" = "--allow-dirty" ]; then
+  package_options+=(--allow-dirty)
+fi
 mkdir -p "$report_dir"
 moon version --all | tee "$report_dir/toolchain.txt"
 node --version | tee -a "$report_dir/toolchain.txt"
@@ -28,6 +36,16 @@ python3 scripts/check_files.py --command "node $cli_path" --launcher "node bin/i
 python3 scripts/differential.py --command "node $cli_path" --report "$report_dir/differential.json"
 python3 scripts/exhaustive_cidr.py --command "node $cli_path" --report "$report_dir/exhaustive-cidr.json"
 python3 scripts/benchmark.py --smoke --output "$report_dir/benchmark-smoke.json"
-python3 scripts/package_release.py --output _build/release
+python3 scripts/benchmark.py --subset --smoke --output "$report_dir/subset-smoke.json"
+python3 scripts/package_release.py --output _build/release "${package_options[@]}"
 mkdir -p "$report_dir/release"
-cp _build/release/* "$report_dir/release/"
+python3 - "$report_dir/release" <<'PY'
+import json
+from pathlib import Path
+import shutil
+import sys
+source = Path('_build/release')
+manifest = json.loads((source / 'manifest.json').read_text())
+for name in ['manifest.json', 'SHA256SUMS', *[item['file'] for item in manifest['artifacts']]]:
+    shutil.copyfile(source / name, Path(sys.argv[1]) / name)
+PY
