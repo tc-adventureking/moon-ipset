@@ -1,0 +1,9 @@
+_build/
+target/
+.mooncakes/
+examples/consumer/
+scripts/
+docs/ai/
+__pycache__/
+*.pyc
+work/
