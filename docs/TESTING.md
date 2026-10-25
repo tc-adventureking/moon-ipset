@@ -41,9 +41,9 @@ Zig 下载依据官方发布索引校验 SHA256；仅用于本地 native 验证�
 
 CIDR 穷举对 IPv4 和 IPv6 各自最后一个 16 地址对齐空间，遍历全部 65,536 个子集。递归前缀树给出唯一最小覆盖，与实际 CLI 输出逐项比较；没有复用生产实现的区间贪心过程。
 
-本次原始摘要保存在 [verification/](verification/)：测试计数、协议、差分、穷举报告与演示输出。完整命令行日志和工具路径保留在本地工作目录；公开报告不包含个人本机绝对路径。
+验证报告由下述复现命令生成到 `work/verification/`；CI 将每次运行的报告保存为 `verification-evidence` artifact，不在源码仓库重复提交生成快照。
 
-性能范围与完整数据见 [BENCHMARKS.md](BENCHMARKS.md) 和 [CLI_BENCHMARKS.md](CLI_BENCHMARKS.md)。Windows Node.js `22.3.0` 实测覆盖空PATH、调用目录、stdin、文件错误、BOM、UTF-16诊断和深JSON后续恢复，见 [windows-portable.json](verification/windows-portable.json)。Node安装包按官方SHASUMS校验，便携ZIP及编译产物摘要随报告记录。
+性能范围与完整数据见 [BENCHMARKS.md](BENCHMARKS.md) 和 [CLI_BENCHMARKS.md](CLI_BENCHMARKS.md)。Windows Node.js `22.3.0` 实测覆盖空PATH、调用目录、stdin、文件错误、BOM、UTF-16诊断和深JSON后续恢复，历史证据见 [v0.2.1 Windows报告](https://github.com/tc-adventureking/moon-ipset/blob/v0.2.1/docs/verification/windows-portable.json)。Node安装包按官方SHASUMS校验，便携ZIP及编译产物摘要随报告记录。
 
 ## 复现与限制
 

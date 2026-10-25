@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 .DS_Store
 work/
+/docs/ai/
+/docs/verification/
+/docs/AI_COLLABORATION.md
