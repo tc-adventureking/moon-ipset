@@ -1,0 +1,2198 @@
+{
+  "schema_version": 1,
+  "measured_at_utc": "2026-10-25T17:48:51.840179+00:00",
+  "mode": "full",
+  "environment": {
+    "os": "Ubuntu 26.04 LTS",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "architecture": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i9-14900HX",
+    "python": "3.14.4",
+    "moonbit": [
+      "moon 0.1.20261023 (3778465 2026-10-23)",
+      "moonc v0.10.17+d971670cd (2026-10-23)",
+      "moonrun 0.1.20261023 (3778465 2026-10-23)"
+    ],
+    "c_compiler": "clang version 22.1.8",
+    "backend": "native",
+    "build": "release"
+  },
+  "source_sha256": {
+    "address.mbt": "6baa710b303ee6d032504e39f2ce1deb268a93ff8bbc7940c77141fee1b61d8b",
+    "cidr.mbt": "78a12e5037a0953a29ef5db034f1b35d4cddc8810d2f46f971f0d4acdd9109a4",
+    "set.mbt": "e93983ef272f6e33c1aea6041144d3fb8407aa434635629dd615ca6ef55bbe69",
+    "bench/main.mbt": "142042307b4e63ab0beb9d176310d9a7cb15ee6bdea5f9bd9834eed98354e6e8",
+    "bench/moon.pkg": "3b94f4130ffc892b19f271940dd95392adb17e7930a1a883951c8391d8e8e4c2"
+  },
+  "method": {
+    "runner": "moonbitlang/core/bench.Bench",
+    "samples_per_case": 5,
+    "fixture_seed": 1592598566,
+    "benchmark_calls": 60,
+    "unit": "microseconds per iteration; contains iteration is one query batch",
+    "scope": "single-host synthetic microbenchmarks; no cross-library comparison"
+  },
+  "elapsed_seconds_including_build": 58.224,
+  "cases": [
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.parse_normalize.n100",
+          "sum": 191.70804340723453,
+          "min": 37.45269964994166,
+          "max": 39.42691162971606,
+          "mean": 38.34160868144691,
+          "median": 38.35012835472579,
+          "variance": 0.5065188037507777,
+          "std_dev": 0.7117013444913377,
+          "std_dev_pct": 1.8562114865976458,
+          "median_abs_dev": 0.36609667071179075,
+          "median_abs_dev_pct": 0.9546165460660774,
+          "quartiles": [
+            38.10319953325554,
+            38.35012835472579,
+            38.37510423959546
+          ],
+          "iqr": 0.27190470633991737,
+          "batch_size": 2571,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.union.n100",
+          "sum": 2.238152366,
+          "min": 0.437805942,
+          "max": 0.456173204,
+          "mean": 0.4476304732,
+          "median": 0.45202641000000005,
+          "variance": 6.857879473789719e-05,
+          "std_dev": 0.008281231474720242,
+          "std_dev_pct": 1.8500151286662319,
+          "median_abs_dev": 0.006148036784399931,
+          "median_abs_dev_pct": 1.3601056594016112,
+          "quartiles": [
+            0.43972351000000004,
+            0.45202641000000005,
+            0.45242330000000003
+          ],
+          "iqr": 0.012699789999999989,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.difference.n100",
+          "sum": 4.610110508,
+          "min": 0.861588168,
+          "max": 0.96493309,
+          "mean": 0.9220221016,
+          "median": 0.92206732,
+          "variance": 0.0015229184209984024,
+          "std_dev": 0.03902458739049527,
+          "std_dev_pct": 4.2325002104369585,
+          "median_abs_dev": 0.03501232547399994,
+          "median_abs_dev_pct": 3.7971550140178416,
+          "quartiles": [
+            0.91583912,
+            0.92206732,
+            0.94568281
+          ],
+          "iqr": 0.02984368999999998,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.cidrs_of_difference.n100",
+          "sum": 5.321500538527032,
+          "min": 1.0484095466155805,
+          "max": 1.1080279970200084,
+          "mean": 1.0643001077054064,
+          "median": 1.0512848978288634,
+          "variance": 0.0006355039163614159,
+          "std_dev": 0.02520920300924676,
+          "std_dev_pct": 2.368617913945054,
+          "median_abs_dev": 0.004262995708813171,
+          "median_abs_dev_pct": 0.4055033718849384,
+          "quartiles": [
+            1.0498842592592592,
+            1.0512848978288634,
+            1.0638938378033205
+          ],
+          "iqr": 0.014009578544061263,
+          "batch_size": 93960,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 850,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.contains_batch.n100",
+          "sum": 62.653658872493374,
+          "min": 12.166023836549375,
+          "max": 12.905763299281121,
+          "mean": 12.530731774498674,
+          "median": 12.640507504098878,
+          "variance": 0.11245563649177145,
+          "std_dev": 0.3353440568904889,
+          "std_dev_pct": 2.6761729715813445,
+          "median_abs_dev": 0.39326824193719406,
+          "median_abs_dev_pct": 3.111174466766234,
+          "quartiles": [
+            12.19059339134821,
+            12.640507504098878,
+            12.750770841215791
+          ],
+          "iqr": 0.5601774498675809,
+          "batch_size": 7929,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.parse_normalize.n100",
+          "sum": 176.02505014104375,
+          "min": 34.462425881523274,
+          "max": 36.447496262341325,
+          "mean": 35.20501002820875,
+          "median": 35.21007581100142,
+          "variance": 0.6558925975153469,
+          "std_dev": 0.8098719636555811,
+          "std_dev_pct": 2.300445200858214,
+          "median_abs_dev": 1.0455822160789903,
+          "median_abs_dev_pct": 2.969554004062375,
+          "quartiles": [
+            34.50484026798308,
+            35.21007581100142,
+            35.40021191819464
+          ],
+          "iqr": 0.8953716502115654,
+          "batch_size": 2836,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 200,
+      "output_cidrs": 200,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.union.n100",
+          "sum": 16.838509601260938,
+          "min": 3.3445670948053254,
+          "max": 3.394950320265602,
+          "mean": 3.3677019202521876,
+          "median": 3.3622196250712633,
+          "variance": 0.0004859295545272609,
+          "std_dev": 0.02204380989137905,
+          "std_dev_pct": 0.6545653508944853,
+          "median_abs_dev": 0.02617164137227942,
+          "median_abs_dev_pct": 0.778403682410387,
+          "quartiles": [
+            3.3505673228478488,
+            3.3622196250712633,
+            3.386205238270901
+          ],
+          "iqr": 0.03563791542305239,
+          "batch_size": 29819,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.difference.n100",
+          "sum": 18.779205666526092,
+          "min": 3.7186776367749106,
+          "max": 3.7939539010083196,
+          "mean": 3.7558411333052186,
+          "median": 3.751151132921827,
+          "variance": 0.0007808699810359628,
+          "std_dev": 0.027944050905979304,
+          "std_dev_pct": 0.7440157853904741,
+          "median_abs_dev": 0.026655934999809214,
+          "median_abs_dev_pct": 0.7106067992266286,
+          "quartiles": [
+            3.7462926810566266,
+            3.751151132921827,
+            3.769130314764407
+          ],
+          "iqr": 0.02283763370778047,
+          "batch_size": 26083,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.cidrs_of_difference.n100",
+          "sum": 30.901227917026795,
+          "min": 6.087154167181134,
+          "max": 6.24770172860847,
+          "mean": 6.180245583405359,
+          "median": 6.1896986665020375,
+          "variance": 0.0038313271920983115,
+          "std_dev": 0.061897715564456106,
+          "std_dev_pct": 1.001541358334664,
+          "median_abs_dev": 0.04757967095937806,
+          "median_abs_dev_pct": 0.7686912323676427,
+          "quartiles": [
+            6.157606618101,
+            6.1896986665020375,
+            6.2190667366341525
+          ],
+          "iqr": 0.061460118533152475,
+          "batch_size": 16198,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.contains_batch.n100",
+          "sum": 99.6664583316337,
+          "min": 19.741548643687537,
+          "max": 20.093582133387724,
+          "mean": 19.933291666326742,
+          "median": 19.982512747297577,
+          "variance": 0.028175943114779625,
+          "std_dev": 0.16785691262137412,
+          "std_dev_pct": 0.8420932951326567,
+          "median_abs_dev": 0.164671471817252,
+          "median_abs_dev_pct": 0.8240779020122084,
+          "quartiles": [
+            19.77002998164389,
+            19.982512747297577,
+            20.07878482561697
+          ],
+          "iqr": 0.3087548439730803,
+          "batch_size": 4903,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.parse_normalize.n100",
+          "sum": 172.0021419599724,
+          "min": 33.79317149758454,
+          "max": 34.90252774327122,
+          "mean": 34.40042839199448,
+          "median": 34.46107142857143,
+          "variance": 0.19258399888735472,
+          "std_dev": 0.4388439345454768,
+          "std_dev_pct": 1.2756932255169318,
+          "median_abs_dev": 0.45584168985507206,
+          "median_abs_dev_pct": 1.322772830206135,
+          "quartiles": [
+            34.15361042097999,
+            34.46107142857143,
+            34.691760869565215
+          ],
+          "iqr": 0.5381504485852275,
+          "batch_size": 2898,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.union.n100",
+          "sum": 12.686018620166791,
+          "min": 2.4849581400050544,
+          "max": 2.6033673793277727,
+          "mean": 2.5372037240333585,
+          "median": 2.541668738943644,
+          "variance": 0.0019881853526406046,
+          "std_dev": 0.04458907212132368,
+          "std_dev_pct": 1.757410006100773,
+          "median_abs_dev": 0.04711063599696687,
+          "median_abs_dev_pct": 1.8535317083274494,
+          "quartiles": [
+            2.5098930502906245,
+            2.541668738943644,
+            2.5461313115996966
+          ],
+          "iqr": 0.03623826130907215,
+          "batch_size": 39570,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 200,
+      "output_cidrs": 200,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.difference.n100",
+          "sum": 50.60978484265911,
+          "min": 9.928526115551959,
+          "max": 10.332839825963777,
+          "mean": 10.121956968531823,
+          "median": 10.04521440858039,
+          "variance": 0.03774137343116647,
+          "std_dev": 0.19427139118039607,
+          "std_dev_pct": 1.919306629976465,
+          "median_abs_dev": 0.17300206324395276,
+          "median_abs_dev_pct": 1.7222336548255095,
+          "quartiles": [
+            9.976343417990488,
+            10.04521440858039,
+            10.3268610745725
+          ],
+          "iqr": 0.35051765658201184,
+          "batch_size": 9883,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 200,
+      "output_cidrs": 200,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.cidrs_of_difference.n100",
+          "sum": 54.795145171957664,
+          "min": 10.69249541446208,
+          "max": 11.209345194003527,
+          "mean": 10.959029034391532,
+          "median": 10.94154905202822,
+          "variance": 0.05165856270383096,
+          "std_dev": 0.22728520124247192,
+          "std_dev_pct": 2.073953819532802,
+          "median_abs_dev": 0.3323215541666654,
+          "median_abs_dev_pct": 3.0372441103763403,
+          "quartiles": [
+            10.786058641975304,
+            10.94154905202822,
+            11.165696869488537
+          ],
+          "iqr": 0.37963822751323306,
+          "batch_size": 9072,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.contains_batch.n100",
+          "sum": 100.47364879903922,
+          "min": 19.582749919935946,
+          "max": 20.617139471577264,
+          "mean": 20.094729759807844,
+          "median": 20.086540632506004,
+          "variance": 0.2019512444121172,
+          "std_dev": 0.4493898579319711,
+          "std_dev_pct": 2.2363568124753344,
+          "median_abs_dev": 0.5579392372698135,
+          "median_abs_dev_pct": 2.7776770897369043,
+          "quartiles": [
+            19.7243532826261,
+            20.086540632506004,
+            20.462865492393913
+          ],
+          "iqr": 0.7385122097678121,
+          "batch_size": 4996,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.parse_normalize.n100",
+          "sum": 281.670957337884,
+          "min": 54.971909556313996,
+          "max": 57.53624687144482,
+          "mean": 56.334191467576794,
+          "median": 56.591659271899886,
+          "variance": 1.0056539486159417,
+          "std_dev": 1.002822989672625,
+          "std_dev_pct": 1.7801320362426802,
+          "median_abs_dev": 1.299570584300333,
+          "median_abs_dev_pct": 2.296399506606486,
+          "quartiles": [
+            55.71511092150171,
+            56.591659271899886,
+            56.85603071672355
+          ],
+          "iqr": 1.1409197952218406,
+          "batch_size": 1758,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 100,
+      "output_cidrs": 100,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.union.n100",
+          "sum": 13.40365293072824,
+          "min": 2.6378638678077397,
+          "max": 2.741521448947737,
+          "mean": 2.680730586145648,
+          "median": 2.6668274395823244,
+          "variance": 0.0017703980568196174,
+          "std_dev": 0.042076098403008064,
+          "std_dev_pct": 1.5695757947651519,
+          "median_abs_dev": 0.04294139151299919,
+          "median_abs_dev_pct": 1.6102051027240298,
+          "quartiles": [
+            2.6527669949943484,
+            2.6668274395823244,
+            2.7046731793960923
+          ],
+          "iqr": 0.05190618440174388,
+          "batch_size": 37158,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 200,
+      "output_cidrs": 200,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.difference.n100",
+          "sum": 52.214274533249416,
+          "min": 10.286590119572057,
+          "max": 10.768675498216908,
+          "mean": 10.442854906649883,
+          "median": 10.385169603524222,
+          "variance": 0.03713255544091846,
+          "std_dev": 0.1926980940251316,
+          "std_dev_pct": 1.845262581427075,
+          "median_abs_dev": 0.09849135418503376,
+          "median_abs_dev_pct": 0.9483846479657932,
+          "quartiles": [
+            10.322238200125865,
+            10.385169603524222,
+            10.451601111810364
+          ],
+          "iqr": 0.12936291168449898,
+          "batch_size": 9534,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": 200,
+      "output_cidrs": 200,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.cidrs_of_difference.n100",
+          "sum": 53.32154894476875,
+          "min": 10.511287651549171,
+          "max": 10.775485361472835,
+          "mean": 10.66430978895375,
+          "median": 10.66731275258195,
+          "variance": 0.011951489230026653,
+          "std_dev": 0.1093228669127674,
+          "std_dev_pct": 1.0251283868929393,
+          "median_abs_dev": 0.13562028576560417,
+          "median_abs_dev_pct": 1.271363171880174,
+          "quartiles": [
+            10.608675797036373,
+            10.66731275258195,
+            10.758787382128425
+          ],
+          "iqr": 0.15011158509205202,
+          "batch_size": 8908,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 100,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 100,
+      "right_intervals": 100,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.contains_batch.n100",
+          "sum": 102.13217281988591,
+          "min": 20.086938753056234,
+          "max": 20.633675794621027,
+          "mean": 20.426434563977182,
+          "median": 20.511715362673186,
+          "variance": 0.05665276751888703,
+          "std_dev": 0.2380184184446385,
+          "std_dev_pct": 1.1652470121456895,
+          "median_abs_dev": 0.18081853640586856,
+          "median_abs_dev_pct": 0.8815378587737159,
+          "quartiles": [
+            20.2766750203749,
+            20.511715362673186,
+            20.62316788916056
+          ],
+          "iqr": 0.3464928687856599,
+          "batch_size": 4908,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.parse_normalize.n1000",
+          "sum": 1927.6364390625001,
+          "min": 383.6897578125,
+          "max": 388.2629,
+          "mean": 385.52728781250005,
+          "median": 384.6763046875,
+          "variance": 3.4843919388444986,
+          "std_dev": 1.8666526026136996,
+          "std_dev_pct": 0.4841817068786944,
+          "median_abs_dev": 1.462654396875066,
+          "median_abs_dev_pct": 0.38022991773909354,
+          "quartiles": [
+            384.4192578125,
+            384.6763046875,
+            386.58821875
+          ],
+          "iqr": 2.168960937500003,
+          "batch_size": 256,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.union.n1000",
+          "sum": 2.216977518,
+          "min": 0.431220786,
+          "max": 0.4609982920000001,
+          "mean": 0.4433955036,
+          "median": 0.43667781,
+          "variance": 0.00015699744251449974,
+          "std_dev": 0.012529862030944305,
+          "std_dev_pct": 2.8258883838948123,
+          "median_abs_dev": 0.008090583782399966,
+          "median_abs_dev_pct": 1.8527581656599328,
+          "quartiles": [
+            0.43616793,
+            0.43667781,
+            0.45191270000000006
+          ],
+          "iqr": 0.015744770000000075,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.difference.n1000",
+          "sum": 4.445481621999999,
+          "min": 0.876534374,
+          "max": 0.8944504279999994,
+          "mean": 0.8890963243999999,
+          "median": 0.89194353,
+          "variance": 5.596837238396922e-05,
+          "std_dev": 0.0074812012661048775,
+          "std_dev_pct": 0.8414387801179486,
+          "median_abs_dev": 0.0037167269747990644,
+          "median_abs_dev_pct": 0.4166998077556619,
+          "quartiles": [
+            0.8881309900000001,
+            0.89194353,
+            0.8944223
+          ],
+          "iqr": 0.006291309999999939,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.cidrs_of_difference.n1000",
+          "sum": 5.337567107646355,
+          "min": 1.0372176038809038,
+          "max": 1.0940932412536675,
+          "mean": 1.067513421529271,
+          "median": 1.064635339102435,
+          "variance": 0.0005068222630649548,
+          "std_dev": 0.022512713365228875,
+          "std_dev_pct": 2.108892769982994,
+          "median_abs_dev": 0.029400772549809055,
+          "median_abs_dev_pct": 2.7615814983744618,
+          "quartiles": [
+            1.0571550349005943,
+            1.064635339102435,
+            1.0844658885087544
+          ],
+          "iqr": 0.0273108536081601,
+          "batch_size": 94411,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 855,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.contains_batch.n1000",
+          "sum": 65.07470171794871,
+          "min": 12.751456282051283,
+          "max": 13.212048,
+          "mean": 13.014940343589743,
+          "median": 13.084235512820513,
+          "variance": 0.03833691679942791,
+          "std_dev": 0.19579815320739855,
+          "std_dev_pct": 1.5044106852463226,
+          "median_abs_dev": 0.18949479349230677,
+          "median_abs_dev_pct": 1.4482679810114347,
+          "quartiles": [
+            12.871589615384616,
+            13.084235512820513,
+            13.155372307692307
+          ],
+          "iqr": 0.2837826923076907,
+          "batch_size": 7800,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.parse_normalize.n1000",
+          "sum": 2161.836232365145,
+          "min": 422.66609626556016,
+          "max": 447.6707128630703,
+          "mean": 432.367246473029,
+          "median": 429.32186721991707,
+          "variance": 91.90989658044666,
+          "std_dev": 9.586964930594387,
+          "std_dev_pct": 2.217319884611662,
+          "median_abs_dev": 8.045602658091225,
+          "median_abs_dev_pct": 1.874025823606586,
+          "quartiles": [
+            427.4290041493776,
+            429.32186721991707,
+            434.74855186721993
+          ],
+          "iqr": 7.31954771784234,
+          "batch_size": 241,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 2000,
+      "output_cidrs": 2000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.union.n1000",
+          "sum": 179.19429627047754,
+          "min": 35.4370468455908,
+          "max": 37.11359240153364,
+          "mean": 35.83885925409551,
+          "median": 35.541831997211574,
+          "variance": 0.5104909741211823,
+          "std_dev": 0.7144865108042154,
+          "std_dev_pct": 1.9936084062791897,
+          "median_abs_dev": 0.05425778563959004,
+          "median_abs_dev_pct": 0.15265894465948415,
+          "quartiles": [
+            35.52339665388637,
+            35.541831997211574,
+            35.57842837225514
+          ],
+          "iqr": 0.05503171836876675,
+          "batch_size": 2869,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.difference.n1000",
+          "sum": 206.59741898052218,
+          "min": 40.662754662246165,
+          "max": 42.43633692498964,
+          "mean": 41.319483796104436,
+          "median": 41.19967509324493,
+          "variance": 0.4625761738503741,
+          "std_dev": 0.6801295272596052,
+          "std_dev_pct": 1.6460261958154647,
+          "median_abs_dev": 0.4051528607542502,
+          "median_abs_dev_pct": 0.9833884850724924,
+          "quartiles": [
+            40.92640323249068,
+            41.19967509324493,
+            41.37224906755077
+          ],
+          "iqr": 0.4458458350600907,
+          "batch_size": 2413,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.cidrs_of_difference.n1000",
+          "sum": 336.96020172413796,
+          "min": 64.92098779840849,
+          "max": 68.9366701591512,
+          "mean": 67.39204034482759,
+          "median": 68.27417970822282,
+          "variance": 3.1917675415237072,
+          "std_dev": 1.786551858056101,
+          "std_dev_pct": 2.6509834824925593,
+          "median_abs_dev": 0.982208342546428,
+          "median_abs_dev_pct": 1.438623425054688,
+          "quartiles": [
+            66.09207427055703,
+            68.27417970822282,
+            68.73628978779841
+          ],
+          "iqr": 2.6442155172413777,
+          "batch_size": 1508,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.contains_batch.n1000",
+          "sum": 361.2675191549296,
+          "min": 71.15529070422535,
+          "max": 72.85503549295775,
+          "mean": 72.25350383098592,
+          "median": 72.39308873239436,
+          "variance": 0.43821840533178597,
+          "std_dev": 0.6619806683973377,
+          "std_dev_pct": 0.9161917876617178,
+          "median_abs_dev": 0.392122641971839,
+          "median_abs_dev_pct": 0.5416575654360393,
+          "quartiles": [
+            72.20653239436619,
+            72.39308873239436,
+            72.65757183098592
+          ],
+          "iqr": 0.45103943661972323,
+          "batch_size": 1420,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.parse_normalize.n1000",
+          "sum": 2119.7837516949153,
+          "min": 410.4202957627118,
+          "max": 433.3882483050848,
+          "mean": 423.95675033898306,
+          "median": 426.3137245762712,
+          "variance": 77.28270810244605,
+          "std_dev": 8.791058417644946,
+          "std_dev_pct": 2.073574347056835,
+          "median_abs_dev": 7.927248605084882,
+          "median_abs_dev_pct": 1.8594870744459528,
+          "quartiles": [
+            420.96686864406774,
+            426.3137245762712,
+            428.6946144067797
+          ],
+          "iqr": 7.7277457627119475,
+          "batch_size": 236,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.union.n1000",
+          "sum": 132.99498503118502,
+          "min": 25.581393139293137,
+          "max": 27.87556122661123,
+          "mean": 26.598997006237006,
+          "median": 26.31770997920998,
+          "variance": 0.7953088995866404,
+          "std_dev": 0.89180093046971,
+          "std_dev_pct": 3.352761497963995,
+          "median_abs_dev": 1.0916633468607102,
+          "median_abs_dev_pct": 4.148017998994153,
+          "quartiles": [
+            26.142864864864865,
+            26.31770997920998,
+            27.07745582120582
+          ],
+          "iqr": 0.9345909563409549,
+          "batch_size": 3848,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 2000,
+      "output_cidrs": 2000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.difference.n1000",
+          "sum": 577.9162566251416,
+          "min": 113.84230554926387,
+          "max": 117.43101902604757,
+          "mean": 115.58325132502833,
+          "median": 115.92344847112118,
+          "variance": 2.5134161345050647,
+          "std_dev": 1.5853757076810104,
+          "std_dev_pct": 1.3716310014699458,
+          "median_abs_dev": 2.2351241047338637,
+          "median_abs_dev_pct": 1.9281035322984523,
+          "quartiles": [
+            114.05726727066818,
+            115.92344847112118,
+            116.66221630804078
+          ],
+          "iqr": 2.604949037372606,
+          "batch_size": 883,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 2000,
+      "output_cidrs": 2000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.cidrs_of_difference.n1000",
+          "sum": 578.5011337078652,
+          "min": 114.14364089887641,
+          "max": 118.01503213483143,
+          "mean": 115.70022674157303,
+          "median": 115.5550595505618,
+          "variance": 2.0489049417143614,
+          "std_dev": 1.4313996443042598,
+          "std_dev_pct": 1.2371623501667122,
+          "median_abs_dev": 0.7142950240449334,
+          "median_abs_dev_pct": 0.6181425779391246,
+          "quartiles": [
+            115.07327415730337,
+            115.5550595505618,
+            115.71412696629214
+          ],
+          "iqr": 0.6408528089887682,
+          "batch_size": 890,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.contains_batch.n1000",
+          "sum": 345.15658284518827,
+          "min": 68.07944741980474,
+          "max": 69.887829986053,
+          "mean": 69.03131656903766,
+          "median": 69.0040843793584,
+          "variance": 0.44390823051629236,
+          "std_dev": 0.6662643848475561,
+          "std_dev_pct": 0.9651625058914103,
+          "median_abs_dev": 0.5058912418410569,
+          "median_abs_dev_pct": 0.7331323158493893,
+          "quartiles": [
+            68.83991771269177,
+            69.0040843793584,
+            69.34530334728034
+          ],
+          "iqr": 0.5053856345885634,
+          "batch_size": 1434,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.parse_normalize.n1000",
+          "sum": 3003.3542903614457,
+          "min": 592.8115578313253,
+          "max": 608.0125036144578,
+          "mean": 600.6708580722891,
+          "median": 601.5302108433735,
+          "variance": 32.6795421149439,
+          "std_dev": 5.71660232261646,
+          "std_dev_pct": 0.9517029577500299,
+          "median_abs_dev": 5.4852448843376935,
+          "median_abs_dev_pct": 0.9118818615356199,
+          "quartiles": [
+            597.8304638554215,
+            601.5302108433735,
+            603.1695542168675
+          ],
+          "iqr": 5.339090361445983,
+          "batch_size": 166,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 1000,
+      "output_cidrs": 1000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.union.n1000",
+          "sum": 132.5690884504078,
+          "min": 25.923619784267302,
+          "max": 27.050706235201265,
+          "mean": 26.51381769008156,
+          "median": 26.312359379110763,
+          "variance": 0.2577084519419406,
+          "std_dev": 0.5076499305052061,
+          "std_dev_pct": 1.9146617678340254,
+          "median_abs_dev": 0.5763453233149151,
+          "median_abs_dev_pct": 2.190397732909016,
+          "quartiles": [
+            26.240444619836886,
+            26.312359379110763,
+            27.04195843199158
+          ],
+          "iqr": 0.8015138121546954,
+          "batch_size": 3801,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 2000,
+      "output_cidrs": 2000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.difference.n1000",
+          "sum": 581.238836590909,
+          "min": 114.39233636363636,
+          "max": 117.98195136363636,
+          "mean": 116.24776731818181,
+          "median": 116.9504375,
+          "variance": 2.9764076072144436,
+          "std_dev": 1.7252268277575686,
+          "std_dev_pct": 1.4840945917141355,
+          "median_abs_dev": 1.5293224542272503,
+          "median_abs_dev_pct": 1.3076671510760705,
+          "quartiles": [
+            114.40901818181818,
+            116.9504375,
+            117.50509318181814
+          ],
+          "iqr": 3.0960749999999564,
+          "batch_size": 880,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": 2000,
+      "output_cidrs": 2000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.cidrs_of_difference.n1000",
+          "sum": 555.4218380952382,
+          "min": 107.43135670995672,
+          "max": 112.69956255411255,
+          "mean": 111.08436761904764,
+          "median": 111.66608008658008,
+          "variance": 4.569996326882649,
+          "std_dev": 2.1377549735371097,
+          "std_dev_pct": 1.924442673039576,
+          "median_abs_dev": 1.2269461681818394,
+          "median_abs_dev_pct": 1.0987635343074003,
+          "quartiles": [
+            111.13119480519481,
+            111.66608008658008,
+            112.49364393939395
+          ],
+          "iqr": 1.3624491341991387,
+          "batch_size": 924,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 1000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 1000,
+      "right_intervals": 1000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.contains_batch.n1000",
+          "sum": 347.1734748603352,
+          "min": 67.98329958100558,
+          "max": 70.90210824022347,
+          "mean": 69.43469497206704,
+          "median": 69.52148603351955,
+          "variance": 1.300360951053063,
+          "std_dev": 1.1403337016211803,
+          "std_dev_pct": 1.6423110983348117,
+          "median_abs_dev": 1.2152215797486445,
+          "median_abs_dev_pct": 1.7479798679256215,
+          "quartiles": [
+            68.70183030726254,
+            69.52148603351955,
+            70.06475069832402
+          ],
+          "iqr": 1.362920391061479,
+          "batch_size": 1432,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.parse_normalize.n10000",
+          "sum": 19974.062368000003,
+          "min": 3918.5262000000002,
+          "max": 4108.916008,
+          "mean": 3994.8124736000004,
+          "median": 3954.5467200000003,
+          "variance": 7328.5824828792465,
+          "std_dev": 85.60714037321446,
+          "std_dev_pct": 2.1429576717043735,
+          "median_abs_dev": 53.40402295200005,
+          "median_abs_dev_pct": 1.3504461252641375,
+          "quartiles": [
+            3929.51308,
+            3954.5467200000003,
+            4062.5603600000004
+          ],
+          "iqr": 133.04728000000023,
+          "batch_size": 25,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.union.n10000",
+          "sum": 2.159243676,
+          "min": 0.420619734,
+          "max": 0.439299222,
+          "mean": 0.4318487352,
+          "median": 0.43447845999999996,
+          "variance": 5.499441936891089e-05,
+          "std_dev": 0.007415822231479858,
+          "std_dev_pct": 1.717226803511513,
+          "median_abs_dev": 0.00714726174120005,
+          "median_abs_dev_pct": 1.645020961729622,
+          "quartiles": [
+            0.42849871,
+            0.43447845999999996,
+            0.43634755
+          ],
+          "iqr": 0.007848839999999968,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.difference.n10000",
+          "sum": 4.563184964,
+          "min": 0.907360276,
+          "max": 0.9198458279999999,
+          "mean": 0.9126369928000001,
+          "median": 0.91284686,
+          "variance": 2.4150010891474914e-05,
+          "std_dev": 0.004914266058271053,
+          "std_dev_pct": 0.5384688651721123,
+          "median_abs_dev": 0.0058842614880000935,
+          "median_abs_dev_pct": 0.644605546213972,
+          "quartiles": [
+            0.90887798,
+            0.91284686,
+            0.91425402
+          ],
+          "iqr": 0.005376040000000026,
+          "batch_size": 100000,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": 16,
+      "output_cidrs": 16,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.cidrs_of_difference.n10000",
+          "sum": 5.945080459520971,
+          "min": 1.1526397095480656,
+          "max": 1.2235602037498647,
+          "mean": 1.1890160919041943,
+          "median": 1.193574748022109,
+          "variance": 0.0009144499392977684,
+          "std_dev": 0.030239873334684593,
+          "std_dev_pct": 2.543268635351757,
+          "median_abs_dev": 0.04381374635309417,
+          "median_abs_dev_pct": 3.6708003772447935,
+          "quartiles": [
+            1.1640227809688957,
+            1.193574748022109,
+            1.2112830172320364
+          ],
+          "iqr": 0.04726023626314069,
+          "batch_size": 92270,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "overlap",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 16,
+      "right_intervals": 16,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 843,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "overlap.contains_batch.n10000",
+          "sum": 64.12697029879212,
+          "min": 12.759318525111253,
+          "max": 12.92352208518754,
+          "mean": 12.825394059758423,
+          "median": 12.827190972663695,
+          "variance": 0.004102405187684808,
+          "std_dev": 0.0640500209811426,
+          "std_dev_pct": 0.49940002375528597,
+          "median_abs_dev": 0.07270677940240824,
+          "median_abs_dev_pct": 0.5668176263794251,
+          "quartiles": [
+            12.778150921805468,
+            12.827190972663695,
+            12.838787794024158
+          ],
+          "iqr": 0.06063687221869074,
+          "batch_size": 7865,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.parse_normalize.n10000",
+          "sum": 23454.06567272727,
+          "min": 4612.776227272725,
+          "max": 4816.1524,
+          "mean": 4690.813134545454,
+          "median": 4697.883545454546,
+          "variance": 6539.341469301962,
+          "std_dev": 80.8661948486632,
+          "std_dev_pct": 1.723927014980085,
+          "median_abs_dev": 106.55425982727363,
+          "median_abs_dev_pct": 2.2681332731282913,
+          "quartiles": [
+            4626.013681818182,
+            4697.883545454546,
+            4701.239818181818
+          ],
+          "iqr": 75.22613636363621,
+          "batch_size": 22,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 20000,
+      "output_cidrs": 20000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.union.n10000",
+          "sum": 2158.970773728813,
+          "min": 424.63200508474574,
+          "max": 440.3805355932203,
+          "mean": 431.7941547457626,
+          "median": 432.65736016949154,
+          "variance": 38.64174350582972,
+          "std_dev": 6.216248346537461,
+          "std_dev_pct": 1.4396323521789092,
+          "median_abs_dev": 8.339870005932204,
+          "median_abs_dev_pct": 1.9275923106138997,
+          "quartiles": [
+            427.03219491525425,
+            432.65736016949154,
+            434.26867796610145
+          ],
+          "iqr": 7.236483050847198,
+          "batch_size": 236,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.difference.n10000",
+          "sum": 2561.367912953368,
+          "min": 509.28079067357515,
+          "max": 514.2756093264248,
+          "mean": 512.2735825906736,
+          "median": 512.5279170984456,
+          "variance": 3.356324933428697,
+          "std_dev": 1.8320275471260514,
+          "std_dev_pct": 0.3576267856447152,
+          "median_abs_dev": 0.5387983492226923,
+          "median_abs_dev_pct": 0.10512565876859362,
+          "quartiles": [
+            512.3922642487047,
+            512.5279170984456,
+            512.8913316062176
+          ],
+          "iqr": 0.49906735751289943,
+          "batch_size": 193,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.cidrs_of_difference.n10000",
+          "sum": 4192.3776100000005,
+          "min": 823.6233166666667,
+          "max": 850.4744850000001,
+          "mean": 838.4755220000001,
+          "median": 837.9128666666668,
+          "variance": 141.67476558585804,
+          "std_dev": 11.902720932033063,
+          "std_dev_pct": 1.4195668948858189,
+          "median_abs_dev": 18.042834284999955,
+          "median_abs_dev_pct": 2.1533067461747954,
+          "quartiles": [
+            830.28435,
+            837.9128666666668,
+            850.0825916666668
+          ],
+          "iqr": 19.79824166666674,
+          "batch_size": 120,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "discrete",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "discrete.contains_batch.n10000",
+          "sum": 619.6225054862841,
+          "min": 123.00755411471314,
+          "max": 124.76184663341647,
+          "mean": 123.92450109725682,
+          "median": 123.72209102244389,
+          "variance": 0.4718351570067921,
+          "std_dev": 0.6869025818897408,
+          "std_dev_pct": 0.5542911819759152,
+          "median_abs_dev": 1.0484828887780595,
+          "median_abs_dev_pct": 0.8474500229614278,
+          "quartiles": [
+            123.7017306733167,
+            123.72209102244389,
+            124.42928304239402
+          ],
+          "iqr": 0.7275523690773156,
+          "batch_size": 802,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.parse_normalize.n10000",
+          "sum": 23993.236676190478,
+          "min": 4710.639809523809,
+          "max": 4926.259247619046,
+          "mean": 4798.647335238095,
+          "median": 4776.123095238096,
+          "variance": 6689.701561134822,
+          "std_dev": 81.79059579887422,
+          "std_dev_pct": 1.7044510689139025,
+          "median_abs_dev": 68.49329599999896,
+          "median_abs_dev_pct": 1.4340772763643455,
+          "quartiles": [
+            4757.893333333333,
+            4776.123095238096,
+            4822.32119047619
+          ],
+          "iqr": 64.42785714285674,
+          "batch_size": 21,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.union.n10000",
+          "sum": 1572.9534447284345,
+          "min": 310.133138658147,
+          "max": 318.29880447284347,
+          "mean": 314.5906889456869,
+          "median": 315.6480479233227,
+          "variance": 15.795927220861529,
+          "std_dev": 3.9744090404563956,
+          "std_dev_pct": 1.2633587642966015,
+          "median_abs_dev": 3.930011660319527,
+          "median_abs_dev_pct": 1.2450612909458596,
+          "quartiles": [
+            310.66854313099043,
+            315.6480479233227,
+            318.204910543131
+          ],
+          "iqr": 7.536367412140578,
+          "batch_size": 313,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 20000,
+      "output_cidrs": 20000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.difference.n10000",
+          "sum": 6167.286662337663,
+          "min": 1212.436342857143,
+          "max": 1246.7970727272727,
+          "mean": 1233.4573324675325,
+          "median": 1240.2644545454546,
+          "variance": 197.69612271073848,
+          "std_dev": 14.060445324054943,
+          "std_dev_pct": 1.1399214998322649,
+          "median_abs_dev": 9.685259716363632,
+          "median_abs_dev_pct": 0.7809027889873043,
+          "quartiles": [
+            1226.0129350649352,
+            1240.2644545454546,
+            1241.7758571428571
+          ],
+          "iqr": 15.762922077921985,
+          "batch_size": 77,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 20000,
+      "output_cidrs": 20000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.cidrs_of_difference.n10000",
+          "sum": 6831.74934520548,
+          "min": 1330.9634602739727,
+          "max": 1404.088104109589,
+          "mean": 1366.3498690410959,
+          "median": 1355.954095890411,
+          "variance": 1181.9350944628598,
+          "std_dev": 34.37928292537324,
+          "std_dev_pct": 2.516140536501139,
+          "median_abs_dev": 37.05111636493148,
+          "median_abs_dev_pct": 2.7324757141281553,
+          "quartiles": [
+            1339.4611369863014,
+            1355.954095890411,
+            1401.2825479452056
+          ],
+          "iqr": 61.82141095890415,
+          "batch_size": 73,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "fragmented",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "fragmented.contains_batch.n10000",
+          "sum": 632.6315885429638,
+          "min": 122.01863337484434,
+          "max": 132.25650809464508,
+          "mean": 126.52631770859276,
+          "median": 125.95884682440847,
+          "variance": 18.222679930565082,
+          "std_dev": 4.268803102810562,
+          "std_dev_pct": 3.3738459951408637,
+          "median_abs_dev": 4.949406230136942,
+          "median_abs_dev_pct": 3.9293835684575664,
+          "quartiles": [
+            123.10042465753425,
+            125.95884682440847,
+            129.29717559153173
+          ],
+          "iqr": 6.196750933997478,
+          "batch_size": 803,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "parse_normalize",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.parse_normalize.n10000",
+          "sum": 33742.668742857146,
+          "min": 6633.193771428571,
+          "max": 6897.813757142857,
+          "mean": 6748.533748571429,
+          "median": 6697.628142857144,
+          "variance": 15083.352558996045,
+          "std_dev": 122.81430111756548,
+          "std_dev_pct": 1.8198664434857952,
+          "median_abs_dev": 95.5303990800014,
+          "median_abs_dev_pct": 1.4263317855572832,
+          "quartiles": [
+            6652.111142857141,
+            6697.628142857144,
+            6861.921928571429
+          ],
+          "iqr": 209.8107857142877,
+          "batch_size": 14,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "union",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 10000,
+      "output_cidrs": 10000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.union.n10000",
+          "sum": 1615.0265936305732,
+          "min": 316.62948789808917,
+          "max": 336.0671152866242,
+          "mean": 323.00531872611464,
+          "median": 320.46133121019113,
+          "variance": 63.177264952642915,
+          "std_dev": 7.948412731649189,
+          "std_dev_pct": 2.460768374649853,
+          "median_abs_dev": 5.6810908945223755,
+          "median_abs_dev_pct": 1.7727851510409343,
+          "quartiles": [
+            317.3013248407644,
+            320.46133121019113,
+            324.56733439490444
+          ],
+          "iqr": 7.266009554140055,
+          "batch_size": 314,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 20000,
+      "output_cidrs": 20000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.difference.n10000",
+          "sum": 6446.3282831168835,
+          "min": 1252.3820181818185,
+          "max": 1327.325057142857,
+          "mean": 1289.2656566233768,
+          "median": 1272.9205844155845,
+          "variance": 1173.5146190577589,
+          "std_dev": 34.25659964237196,
+          "std_dev_pct": 2.657062915341355,
+          "median_abs_dev": 30.450478298181476,
+          "median_abs_dev_pct": 2.392174238596488,
+          "quartiles": [
+            1269.4375194805195,
+            1272.9205844155845,
+            1324.263103896104
+          ],
+          "iqr": 54.825584415584444,
+          "batch_size": 77,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "cidrs_of_difference",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": 20000,
+      "output_cidrs": 20000,
+      "queries_per_iteration": 0,
+      "hits": null,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.cidrs_of_difference.n10000",
+          "sum": 6037.288619277109,
+          "min": 1191.4444963855422,
+          "max": 1220.755773493976,
+          "mean": 1207.4577238554218,
+          "median": 1213.0640120481928,
+          "variance": 165.62730680207898,
+          "std_dev": 12.869627298491553,
+          "std_dev_pct": 1.0658449603849263,
+          "median_abs_dev": 11.403805519518151,
+          "median_abs_dev_pct": 0.940082749653371,
+          "quartiles": [
+            1196.1725060240963,
+            1213.0640120481928,
+            1215.8518313253012
+          ],
+          "iqr": 19.679325301204926,
+          "batch_size": 83,
+          "runs": 5
+        }
+      ]
+    },
+    {
+      "profile": "mixed",
+      "input_count_per_operand": 10000,
+      "seed": 1592598566,
+      "operation": "contains_batch",
+      "left_intervals": 10000,
+      "right_intervals": 10000,
+      "output_intervals": null,
+      "output_cidrs": null,
+      "queries_per_iteration": 1024,
+      "hits": 512,
+      "unit": "microseconds_per_iteration",
+      "summaries": [
+        {
+          "name": "mixed.contains_batch.n10000",
+          "sum": 561.1656389496717,
+          "min": 109.54936455142231,
+          "max": 114.52739037199123,
+          "mean": 112.23312778993434,
+          "median": 112.42507002188184,
+          "variance": 5.142248814381497,
+          "std_dev": 2.26765271026705,
+          "std_dev_pct": 2.0204842856303475,
+          "median_abs_dev": 3.11191251597373,
+          "median_abs_dev_pct": 2.767988061175362,
+          "quartiles": [
+            110.326113785558,
+            112.42507002188184,
+            114.33770021881831
+          ],
+          "iqr": 4.0115864332603195,
+          "batch_size": 914,
+          "runs": 5
+        }
+      ]
+    }
+  ]
+}

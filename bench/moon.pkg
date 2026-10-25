@@ -1,0 +1,9 @@
+import {
+  "tc-adventureking/ipset",
+  "moonbitlang/core/bench" @benchmark,
+  "moonbitlang/core/env",
+}
+
+supported_targets = "native"
+
+pkgtype(kind: "executable")
