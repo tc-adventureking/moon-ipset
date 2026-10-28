@@ -1,58 +1,35 @@
-# 验证记录
+# 验证范围
 
-验证日期：2026-10-26（UTC+8），版本 0.2.1。在 Ubuntu WSL 2 执行完整验证入口，并在 Windows 的最低支持版本 Node.js 22.3.0 上验证同一便携 CLI。
-
-## 工具版本
-
-| 工具 | 实测版本 |
-| --- | --- |
-| moon / moonrun | `0.1.20261023`，`3778465` |
-| moonc | `v0.10.17+d971670cd`，2026-10-23 |
-| Node.js | `24.22.1` |
-| Python | `3.14.4` |
-| native C 编译器 | Zig `0.17.0` 的 cc，Clang `22.1.8` |
-
-Zig 下载依据官方发布索引校验 SHA256；仅用于本地 native 验证，不作为库依赖或捆绑分发。CI 使用 Ubuntu runner 自带的 C 工具链。
-
-## 实测结果
-
-| 检查 | 结果 |
-| --- | --- |
-| `moon fmt --check` | 通过 |
-| `moon check --deny-warn --target all` | 通过，零警告 |
-| wasm | 28/28 |
-| wasm-gc | 28/28 |
-| JS | 41/41 |
-| native | 28/28 |
-| `moon info` 与已提交公共接口一致 | 通过 |
-| 演示与独立消费模块 | 均运行成功，输出符合场景预期 |
-| 实际 CLI 协议、编码与错误恢复 | 15项检查、23个响应通过 |
-| 文件 CLI、退出码、错误行号与启动边界 | 24/24 |
-| Python 独立差分 | 3,557/3,557 |
-| 二叉前缀树有限空间穷举 | 131,072/131,072 |
-| native 性能基准 | 核心60项、子集对照24项；smoke 5+8项通过 |
-| JS 文件端到端基准 | 六例交错对照，逐次核对输出与退出码 |
-| 解包库与独立消费者 | 零警告检查、1/1消费测试通过 |
-| 便携 CLI（空PATH、保留调用目录） | WSL与Windows均通过，覆盖退出0/1/2和缺失运行文件 |
-
-四目标合计执行 125 项测试；这是重复验证各目标行为的执行次数，不是 125 个不同测试定义。库有 27 个测试定义，独立消费模块有 1 个，JS CLI 另有 13 个。库内还对两个地址族分别检查 256×256 个八地址集合对，共 131,072 对，覆盖运算结果及区间规范形。
-
-差分验证用固定种子 `0x6D6F6F6E20261026`，覆盖所有合法前缀长度、全宽随机地址、完整地址空间、最大值、严格主机位检查及非法输入。参考使用 Python `ipaddress` 与独立点集模型。IPv6 文本按项目的纯十六进制策略单独规范化，避免 Python 版本间 mapped 地址输出形式变化影响比较。
-
-CIDR 穷举对 IPv4 和 IPv6 各自最后一个 16 地址对齐空间，遍历全部 65,536 个子集。递归前缀树给出唯一最小覆盖，与实际 CLI 输出逐项比较；没有复用生产实现的区间贪心过程。
-
-验证报告由下述复现命令生成到 `work/verification/`；CI 将每次运行的报告保存为 `verification-evidence` artifact，不在源码仓库重复提交生成快照。
-
-性能范围与完整数据见 [BENCHMARKS.md](BENCHMARKS.md) 和 [CLI_BENCHMARKS.md](CLI_BENCHMARKS.md)。Windows Node.js `22.3.0` 实测覆盖空PATH、调用目录、stdin、文件错误、BOM、UTF-16诊断和深JSON后续恢复，历史证据见 [v0.2.1 Windows报告](https://github.com/tc-adventureking/moon-ipset/blob/v0.2.1/docs/verification/windows-portable.json)。Node安装包按官方SHASUMS校验，便携ZIP及编译产物摘要随报告记录。
-
-## 复现与限制
-
-在有 MoonBit、Node.js、Python 和 C 工具链的 Linux／WSL 环境执行：
+0.3.0 使用 MoonBit 0.1.20261023 / moonc 0.10.17、Node.js 24.22.1，在 Ubuntu WSL 2 验证。公开检查入口为：
 
 ```bash
 bash scripts/verify.sh
 ```
 
-结果写入 `work/verification/`，包含13项性能smoke与安装包解包验证；任一步失败返回非零。GitHub Actions 执行同一入口，并在最低 Node.js 22.3.0 上另跑安装包检查，见 [Actions](https://github.com/tc-adventureking/moon-ipset/actions)。`python3 scripts/package_release.py` 生成库ZIP、便携CLI、manifest和SHA256SUMS，默认要求干净且未变化的源码。开发时可显式运行 `bash scripts/verify.sh work/verification --allow-dirty`，此类包标记 `release_ready:false`，不用于发布。正式包保留工具链的core LICENSE/NOTICE；独立消费者使用解包源码的临时workspace，本次没有进行Mooncakes Registry安装。
+需要 MoonBit、Node.js 24 LTS 与 C 工具链，无需 Python。入口检查格式、零警告编译、四目标测试、公共 API 文件、消费示例及文件 CLI；GitHub Actions 使用同一入口，工具链 stable 可能随时间更新。
 
-CI 安装运行时的官方 stable 工具链，并记录精确版本；stable 将来可能变化。本页记录的是上述版本与日期的实测，不承诺未来版本无变化。有限空间穷举和固定随机测试不是全部 IPv4/IPv6 输入的形式证明。性能数据属于单机合成负载，尚未进行长期负载或实际防火墙集成验证。CLI 为读取到 EOF 后处理的批处理适配器。
+## 测试覆盖
+
+- 地址：文本/字节/大整数往返、IPv6 scope、特殊地址分类与例外、mapped/6to4/Teredo、格式、溢出及 Map 键。
+- 网络：严格默认值、点分掩码/反掩码、所有前缀长度、2^128 地址计数、负索引、子网/超网、包含/重叠、排除与归并。
+- 接口：主机与网络分离、scope、配置格式、算术和混合输入；惰性迭代测试只取有限项，覆盖 /31、/32、/127、/128。
+- 旧功能：集合代数、最小 CIDR 覆盖、CLI JSONL/文件协议、错误恢复和退出码。公开 MoonBit 测试保留有限空间集合检查。
+
+## 2026-10-29 本地验证
+
+| 检查 | 结果 |
+| --- | --- |
+| 格式与四目标零警告编译 | 通过 |
+| wasm / wasm-gc / native | 各 79/79 |
+| JavaScript | 92/92 |
+| 独立消费示例 | 地址清单、子网规划、双栈接口和集合排除 |
+| 旧 CLI 专项检查 | 协议 15 项、文件 24 项通过 |
+| 旧集合差分 / CIDR 有限空间检查 | 3,557 / 131,072 项通过 |
+| 新 IP API 严格 CPython 差分 | 20,195/20,195 |
+| 独立统计的明确行为适配 | 830/830 |
+| 开发包解包与独立消费者 | 通过；包含新地址、网络、接口和旧集合 API |
+| Windows 便携 CLI | Node.js 24.22.1，空 PATH 下六项检查通过 |
+
+四目标共 329 次测试执行，包含跨后端重复执行；不是 329 个不同测试定义。Python 参考固定为官方 CPython v3.13.2，开发用对照程序与生成报告只保留在本地，不作为公开仓库的复现入口；有意不同的行为与严格差分分开统计，见 [兼容说明](COMPATIBILITY.md)。
+
+有限用例、固定随机输入与有限空间穷举不构成对所有 IPv4/IPv6 输入的形式证明。未宣称实际防火墙集成、长期负载或持续同步 IANA 分类。CLI 是批处理地址集合工具，不是防火墙规则解释器。

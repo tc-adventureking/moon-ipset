@@ -1,6 +1,11 @@
-# Behavioral specification
+# Legacy set API and CLI specification
 
-This is the intended public behavior. Test results and release status are
+This document describes the legacy `Address`, `Cidr`, `IpSet` and file/JSONL
+CLI behavior. The general `IpAddress`, `IpNetwork` and `IpInterface` API is
+described in [COMPATIBILITY.md](COMPATIBILITY.md); its parsing defaults and
+scoped-address support intentionally differ from the legacy API.
+
+Test results and release status are
 reported separately; the specification itself is not proof of implementation.
 
 ## Scope

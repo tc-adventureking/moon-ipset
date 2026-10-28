@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 — 2026-10-29
+
+- Add general `IpAddress`, `IpNetwork` and `IpInterface` APIs, using CPython
+  3.13.2 ipaddress as a fixed behavior reference with documented adaptations.
+- Support address classification, scope identifiers, bytes/BigInt conversion,
+  formatting, checked arithmetic, mapped IPv6, 6to4 and Teredo.
+- Add strict network parsing, netmask/hostmask input, lazy hosts/subnets,
+  supernets, exact counts and indexes, exclusion, collapse and range summaries.
+- Preserve configured interface hosts and prefixes; retain legacy set APIs and CLI.
+- Add three general consumer scenarios and MoonBit regression tests. Move
+  Python validation tools and generated reports out of the published source.
+
 ## 0.2.1 — 2026-10-26
 
 - Make subset queries stop at the first uncovered interval and use constant

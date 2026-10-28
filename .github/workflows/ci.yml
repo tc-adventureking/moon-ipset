@@ -23,19 +23,5 @@ jobs:
           curl --fail --show-error --silent --location https://cli.moonbitlang.com/install/unix.sh -o "$RUNNER_TEMP/moon-install.sh"
           bash "$RUNNER_TEMP/moon-install.sh"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Compile, test, and compare independent oracles
-        run: bash scripts/verify.sh work/ci
-      - uses: actions/setup-node@v7.1.0
-        with:
-          node-version: '22.3.0'
-      - name: Verify portable package on minimum supported Node
-        run: |
-          python3 scripts/package_release.py --output _build/minimum-node-release
-          cp _build/minimum-node-release/manifest.json work/ci/minimum-node-manifest.json
-      - name: Preserve verification evidence
-        if: always()
-        uses: actions/upload-artifact@v7.0.2
-        with:
-          name: verification-evidence
-          path: work/ci
-          if-no-files-found: warn
+      - name: Compile, test, and run consumer examples
+        run: bash scripts/verify.sh

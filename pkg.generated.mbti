@@ -1,7 +1,41 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tc-adventureking/ipset"
 
+import {
+  "moonbitlang/core/bigint",
+  "moonbitlang/core/debug",
+}
+
 // Values
+pub fn collapse_addresses(Array[IpNetwork]) -> Array[IpNetwork] raise IpError
+
+pub fn collapse_ip_inputs(Array[IpInput]) -> Array[IpNetwork] raise IpError
+
+pub fn get_mixed_type_key(IpInput) -> (Int32, @bigint.BigInt, Int32)
+
+pub fn ip_address(String) -> IpAddress raise IpError
+
+pub fn ip_interface(String) -> IpInterface raise IpError
+
+pub fn ip_network(String, strict? : Bool) -> IpNetwork raise IpError
+
+pub fn ipv4_address(String) -> IpAddress raise IpError
+
+pub fn ipv4_interface(String) -> IpInterface raise IpError
+
+pub fn ipv4_network(String, strict? : Bool) -> IpNetwork raise IpError
+
+pub fn ipv6_address(String) -> IpAddress raise IpError
+
+pub fn ipv6_interface(String) -> IpInterface raise IpError
+
+pub fn ipv6_network(String, strict? : Bool) -> IpNetwork raise IpError
+
+pub fn summarize_address_range(IpAddress, IpAddress) -> Array[IpNetwork] raise IpError
+
+pub fn v4_int_to_packed(@bigint.BigInt) -> Bytes raise IpError
+
+pub fn v6_int_to_packed(@bigint.BigInt) -> Bytes raise IpError
 
 // Errors
 pub(all) suberror IpError {
@@ -70,6 +104,178 @@ pub fn Interval::first(Self) -> Address
 pub fn Interval::last(Self) -> Address
 pub fn Interval::new(Address, Address) -> Self raise IpError
 pub fn Interval::not_equal(Self, Self) -> Bool
+
+type IpAddress derive(Eq)
+pub fn IpAddress::add(Self, @bigint.BigInt) -> Self raise IpError
+pub fn IpAddress::as_address(Self) -> Address
+pub fn IpAddress::compare(Self, Self) -> Int32
+pub fn IpAddress::compressed(Self) -> String
+pub fn IpAddress::equal(Self, Self) -> Bool
+pub fn IpAddress::exploded(Self) -> String
+pub fn IpAddress::family(Self) -> Family
+pub fn IpAddress::format(Self, String) -> String raise IpError
+pub fn IpAddress::from_address(Address) -> Self
+pub fn IpAddress::from_bigint(@bigint.BigInt, family? : Family) -> Self raise IpError
+pub fn IpAddress::from_bytes(Bytes) -> Self raise IpError
+pub fn IpAddress::hash(Self) -> Int32
+pub fn IpAddress::hash_combine(Self, Hasher) -> Unit
+pub fn IpAddress::ipv4_mapped(Self) -> Self?
+pub fn IpAddress::ipv6_mapped(Self) -> Self?
+pub fn IpAddress::is_global(Self) -> Bool
+pub fn IpAddress::is_link_local(Self) -> Bool
+pub fn IpAddress::is_loopback(Self) -> Bool
+pub fn IpAddress::is_multicast(Self) -> Bool
+pub fn IpAddress::is_private(Self) -> Bool
+pub fn IpAddress::is_reserved(Self) -> Bool
+pub fn IpAddress::is_site_local(Self) -> Bool
+pub fn IpAddress::is_unspecified(Self) -> Bool
+pub fn IpAddress::max_prefixlen(Self) -> Int32
+pub fn IpAddress::not_equal(Self, Self) -> Bool
+pub fn IpAddress::op_ge(Self, Self) -> Bool
+pub fn IpAddress::op_gt(Self, Self) -> Bool
+pub fn IpAddress::op_le(Self, Self) -> Bool
+pub fn IpAddress::op_lt(Self, Self) -> Bool
+pub fn IpAddress::output(Self, &Logger) -> Unit
+pub fn IpAddress::parse(String) -> Self raise IpError
+pub fn IpAddress::reverse_pointer(Self) -> String
+pub fn IpAddress::scope_id(Self) -> String?
+pub fn IpAddress::sixtofour(Self) -> Self?
+pub fn IpAddress::subtract(Self, @bigint.BigInt) -> Self raise IpError
+pub fn IpAddress::teredo(Self) -> (Self, Self)?
+pub fn IpAddress::to_bigint(Self) -> @bigint.BigInt
+pub fn IpAddress::to_bytes(Self) -> Bytes
+pub fn IpAddress::to_repr(Self) -> @debug.Repr
+pub fn IpAddress::to_string(Self) -> String
+pub fn IpAddress::unscoped(Self) -> Self
+pub fn IpAddress::version(Self) -> Int32
+pub impl Compare for IpAddress
+pub impl Hash for IpAddress
+pub impl Show for IpAddress
+pub impl @debug.Debug for IpAddress
+
+pub(all) enum IpInput {
+  AddressInput(IpAddress)
+  InterfaceInput(IpInterface)
+  NetworkInput(IpNetwork)
+} derive(Eq)
+pub fn IpInput::equal(Self, Self) -> Bool
+pub fn IpInput::not_equal(Self, Self) -> Bool
+pub fn IpInput::output(Self, &Logger) -> Unit
+pub fn IpInput::to_string(Self) -> String
+pub impl Show for IpInput
+
+type IpInterface derive(Eq)
+pub fn IpInterface::add(Self, @bigint.BigInt) -> Self raise IpError
+pub fn IpInterface::address(Self) -> IpAddress
+pub fn IpInterface::compare(Self, Self) -> Int32
+pub fn IpInterface::compressed(Self) -> String
+pub fn IpInterface::equal(Self, Self) -> Bool
+pub fn IpInterface::exploded(Self) -> String
+pub fn IpInterface::family(Self) -> Family
+pub fn IpInterface::format(Self, String) -> String raise IpError
+pub fn IpInterface::from_address(IpAddress, Int32) -> Self raise IpError
+pub fn IpInterface::from_bigint(@bigint.BigInt, prefix? : Int32, family? : Family) -> Self raise IpError
+pub fn IpInterface::from_bytes(Bytes, prefix? : Int32) -> Self raise IpError
+pub fn IpInterface::hash(Self) -> Int32
+pub fn IpInterface::hash_combine(Self, Hasher) -> Unit
+pub fn IpInterface::hostmask(Self) -> IpAddress
+pub fn IpInterface::ip(Self) -> IpAddress
+pub fn IpInterface::ipv4_mapped(Self) -> IpAddress?
+pub fn IpInterface::ipv6_mapped(Self) -> IpAddress?
+pub fn IpInterface::is_global(Self) -> Bool
+pub fn IpInterface::is_link_local(Self) -> Bool
+pub fn IpInterface::is_loopback(Self) -> Bool
+pub fn IpInterface::is_multicast(Self) -> Bool
+pub fn IpInterface::is_private(Self) -> Bool
+pub fn IpInterface::is_reserved(Self) -> Bool
+pub fn IpInterface::is_site_local(Self) -> Bool
+pub fn IpInterface::is_unspecified(Self) -> Bool
+pub fn IpInterface::max_prefixlen(Self) -> Int32
+pub fn IpInterface::netmask(Self) -> IpAddress
+pub fn IpInterface::network(Self) -> IpNetwork
+pub fn IpInterface::not_equal(Self, Self) -> Bool
+pub fn IpInterface::op_ge(Self, Self) -> Bool
+pub fn IpInterface::op_gt(Self, Self) -> Bool
+pub fn IpInterface::op_le(Self, Self) -> Bool
+pub fn IpInterface::op_lt(Self, Self) -> Bool
+pub fn IpInterface::output(Self, &Logger) -> Unit
+pub fn IpInterface::parse(String) -> Self raise IpError
+pub fn IpInterface::prefixlen(Self) -> Int32
+pub fn IpInterface::reverse_pointer(Self) -> String
+pub fn IpInterface::scope_id(Self) -> String?
+pub fn IpInterface::sixtofour(Self) -> IpAddress?
+pub fn IpInterface::subtract(Self, @bigint.BigInt) -> Self raise IpError
+pub fn IpInterface::teredo(Self) -> (IpAddress, IpAddress)?
+pub fn IpInterface::to_bigint(Self) -> @bigint.BigInt
+pub fn IpInterface::to_bytes(Self) -> Bytes
+pub fn IpInterface::to_repr(Self) -> @debug.Repr
+pub fn IpInterface::to_string(Self) -> String
+pub fn IpInterface::version(Self) -> Int32
+pub fn IpInterface::with_hostmask(Self) -> String
+pub fn IpInterface::with_netmask(Self) -> String
+pub fn IpInterface::with_prefixlen(Self) -> String
+pub impl Compare for IpInterface
+pub impl Hash for IpInterface
+pub impl Show for IpInterface
+pub impl @debug.Debug for IpInterface
+
+type IpNetwork derive(Eq)
+pub fn IpNetwork::address_exclude(Self, Self) -> Iter[Self] raise IpError
+pub fn IpNetwork::as_cidr(Self) -> Cidr
+pub fn IpNetwork::broadcast_address(Self) -> IpAddress
+pub fn IpNetwork::compare(Self, Self) -> Int32
+pub fn IpNetwork::compare_networks(Self, Self) -> Int32 raise IpError
+pub fn IpNetwork::compressed(Self) -> String
+pub fn IpNetwork::contains(Self, IpAddress) -> Bool
+pub fn IpNetwork::equal(Self, Self) -> Bool
+pub fn IpNetwork::exploded(Self) -> String
+pub fn IpNetwork::family(Self) -> Family
+pub fn IpNetwork::from_address(IpAddress, Int32, strict? : Bool) -> Self raise IpError
+pub fn IpNetwork::from_address_mask(IpAddress, String, strict? : Bool) -> Self raise IpError
+pub fn IpNetwork::from_bigint(@bigint.BigInt, prefix? : Int32, family? : Family, strict? : Bool) -> Self raise IpError
+pub fn IpNetwork::from_bytes(Bytes, prefix? : Int32, strict? : Bool) -> Self raise IpError
+pub fn IpNetwork::from_cidr(Cidr) -> Self
+pub fn IpNetwork::hash(Self) -> Int32
+pub fn IpNetwork::hash_combine(Self, Hasher) -> Unit
+pub fn IpNetwork::hostmask(Self) -> IpAddress
+pub fn IpNetwork::hosts(Self) -> Iter[IpAddress]
+pub fn IpNetwork::is_global(Self) -> Bool
+pub fn IpNetwork::is_link_local(Self) -> Bool
+pub fn IpNetwork::is_loopback(Self) -> Bool
+pub fn IpNetwork::is_multicast(Self) -> Bool
+pub fn IpNetwork::is_private(Self) -> Bool
+pub fn IpNetwork::is_reserved(Self) -> Bool
+pub fn IpNetwork::is_site_local(Self) -> Bool
+pub fn IpNetwork::is_unspecified(Self) -> Bool
+pub fn IpNetwork::iter(Self) -> Iter[IpAddress]
+pub fn IpNetwork::max_prefixlen(Self) -> Int32
+pub fn IpNetwork::netmask(Self) -> IpAddress
+pub fn IpNetwork::network_address(Self) -> IpAddress
+pub fn IpNetwork::not_equal(Self, Self) -> Bool
+pub fn IpNetwork::nth(Self, @bigint.BigInt) -> IpAddress raise IpError
+pub fn IpNetwork::num_addresses(Self) -> @bigint.BigInt
+pub fn IpNetwork::op_ge(Self, Self) -> Bool
+pub fn IpNetwork::op_gt(Self, Self) -> Bool
+pub fn IpNetwork::op_le(Self, Self) -> Bool
+pub fn IpNetwork::op_lt(Self, Self) -> Bool
+pub fn IpNetwork::output(Self, &Logger) -> Unit
+pub fn IpNetwork::overlaps(Self, Self) -> Bool
+pub fn IpNetwork::parse(String, strict? : Bool) -> Self raise IpError
+pub fn IpNetwork::prefixlen(Self) -> Int32
+pub fn IpNetwork::subnet_of(Self, Self) -> Bool raise IpError
+pub fn IpNetwork::subnets(Self, prefixlen_diff? : Int32, new_prefix? : Int32) -> Iter[Self] raise IpError
+pub fn IpNetwork::supernet(Self, prefixlen_diff? : Int32, new_prefix? : Int32) -> Self raise IpError
+pub fn IpNetwork::supernet_of(Self, Self) -> Bool raise IpError
+pub fn IpNetwork::to_repr(Self) -> @debug.Repr
+pub fn IpNetwork::to_string(Self) -> String
+pub fn IpNetwork::version(Self) -> Int32
+pub fn IpNetwork::with_hostmask(Self) -> String
+pub fn IpNetwork::with_netmask(Self) -> String
+pub fn IpNetwork::with_prefixlen(Self) -> String
+pub impl Compare for IpNetwork
+pub impl Hash for IpNetwork
+pub impl Show for IpNetwork
+pub impl @debug.Debug for IpNetwork
 
 pub struct IpSet {
   // private fields

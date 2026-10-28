@@ -11,6 +11,9 @@ scripts/
 docs/ai/
 docs/verification/
 __pycache__/
+*.py
+*.pyi
+*.ipynb
 *.pyc
 *.core
 .DS_Store

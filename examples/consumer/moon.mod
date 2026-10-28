@@ -5,5 +5,5 @@ version = "0.1.0"
 preferred_target = "wasm-gc"
 
 import {
-  "tc-adventureking/ipset@0.2.1",
+  "tc-adventureking/ipset@0.3.0",
 }

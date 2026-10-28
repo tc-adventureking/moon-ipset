@@ -1,1 +1,5 @@
-// The library uses only MoonBit builtins and has no third-party dependencies.
+// Standard-library BigInt supports exact IPv6 counts and address arithmetic.
+import {
+  "moonbitlang/core/bigint",
+  "moonbitlang/core/debug",
+}

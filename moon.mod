@@ -1,6 +1,6 @@
 name = "tc-adventureking/ipset"
 
-version = "0.2.1"
+version = "0.3.0"
 
 readme = "README.md"
 
@@ -8,8 +8,17 @@ repository = "https://github.com/tc-adventureking/moon-ipset"
 
 license = "MIT"
 
-keywords = [ "ip", "ipv4", "ipv6", "cidr", "network", "set" ]
+keywords = [
+  "ipaddress",
+  "ipv4",
+  "ipv6",
+  "cidr",
+  "subnet",
+  "network",
+  "interface",
+  "set",
+]
 
-description = "Pure MoonBit IPv4/IPv6 address sets and minimal CIDR covers"
+description = "Pure MoonBit IPv4/IPv6 addresses, networks, interfaces and address sets"
 
 preferred_target = "wasm-gc"

@@ -1,83 +1,65 @@
 # moon-ipset
 
-纯 MoonBit IPv4／IPv6 地址集合库，用于合并网段、从白名单中排除指定范围，以及生成精确的最小 CIDR 覆盖。计算核心无第三方包依赖，不逐个枚举 IP 地址。
+纯 MoonBit 通用 IPv4/IPv6 地址、网络、接口与集合库。以 CPython 3.13.2 `ipaddress` 为行为参考，支持 wasm、wasm-gc、JavaScript 和 native；核心只依赖 MoonBit 标准库。
 
 ## 功能
 
-- IPv4／IPv6 解析、格式化和 CIDR 归一化。
-- 集合并集、交集、差集、对称差。
-- 成员、子集和相交判断。
-- 闭合地址范围转换、重复与相邻网段合并、最小 CIDR 输出。
+- **地址 `IpAddress`**：文本、字节、大整数转换，压缩/展开格式、PTR、scope ID、地址属性、mapped IPv6、6to4、Teredo、比较与受检算术。
+- **网络 `IpNetwork`**：CIDR、IPv4 掩码/反掩码、严格校验、子网/超网、主机遍历、包含与重叠、排除、范围汇总和网段归并。
+- **接口 `IpInterface`**：同时保留主机地址与网络前缀，提供地址、网络、掩码和转换方法。这里的接口是配置值，不是操作系统网卡。
+- **集合 `IpSet`**：并、交、差、对称差、成员与子集判断，以及最小 CIDR 覆盖；旧版 `Address`、`Cidr` 和 CLI 保持兼容。
 
-IPv4 与 IPv6 分开处理；CIDR 默认清除主机位，也支持严格校验。
+地址数量使用 `BigInt`，包括 IPv6 `/0` 的 `2^128` 个地址；`hosts()`、`iter()` 和 `subnets()` 惰性生成，使用 `take(n)` 可限制输出。
 
-## 快速开始
-
-安装 [MoonBit 工具链](https://www.moonbitlang.com/download/)（开发基线 `0.10.17`），在 Linux／WSL 运行：
+## 安装与使用
 
 ```bash
-git clone https://github.com/tc-adventureking/moon-ipset.git
-cd moon-ipset
-moon run cmd/demo --target wasm-gc
+moon add tc-adventureking/ipset@0.3.0
 ```
 
-演示会从双栈白名单中减去排除范围，并检查地址是否仍在集合中。
+在 `moon.pkg` 中导入：
 
-## 作为库使用
+```moonbit
+import { "tc-adventureking/ipset" @ip, }
+```
 
-模块名为 `tc-adventureking/ipset`。当前通过 Git 克隆和本地 workspace 引用；仓库自带可运行的独立消费示例：
+```moonbit
+test "interface and subnet" {
+  let iface = @ip.ip_interface("192.168.10.7/24")
+  assert_eq(iface.ip().to_string(), "192.168.10.7")
+  assert_eq(iface.network().to_string(), "192.168.10.0/24")
+  let first = iface.network().subnets(new_prefix=26).next().unwrap()
+  assert_eq(first.hosts().next().unwrap().to_string(), "192.168.10.1")
+  assert_false(@ip.ip_address("100.64.0.1").is_global())
+}
+```
+
+`ip_network` 默认严格拒绝非零主机位；需要归一化时传 `strict=false`。接口加减会返回 `/32` 或 `/128` 的新接口。地址属性依据固定参考版本，`is_private` 不只表示 RFC1918 私有地址。
+
+[完整 API](pkg.generated.mbti) · [Python 对照与差异](docs/COMPATIBILITY.md) · [使用场景](docs/USAGE.md)
+
+## 示例与测试
+
+安装 MoonBit 工具链后在仓库运行：
 
 ```bash
 moon -C examples/consumer run . --target wasm-gc
+moon test --deny-warn --target all
 ```
 
-在自己的项目中，将库目录和应用目录加入同一个 `moon.work`，再声明模块依赖与包导入。可直接参考：
-
-- [workspace 配置](moon.work)
-- [模块依赖](examples/consumer/moon.mod)与[包导入](examples/consumer/moon.pkg)
-- [完整调用示例](examples/consumer/main.mbt)与[公共 API](pkg.generated.mbti)
+独立消费示例涵盖地址清单校验、子网规划、双栈接口配置和集合排除。完整公开检查运行 `bash scripts/verify.sh`，需要 Node.js 24 LTS 和 C 工具链，无需 Python。[验证范围](docs/TESTING.md)。
 
 ## 网段文件 CLI
 
-需要 Node.js `22.3.0+`。文件每行一个 IP 或 CIDR，支持空行、`#` 注释与标准输入 `-`。仓库入口会自动调用 MoonBit 构建。
+每行一个 IP/CIDR，支持空行、`#` 注释和标准输入 `-`：
 
 ```bash
 node bin/ipset.mjs normalize examples/policies/new.txt
 node bin/ipset.mjs diff examples/policies/old.txt examples/policies/new.txt --json
 ```
 
-diff 输出新增与移除的网段：
-
-```json
-{"added":["10.0.1.10/32","2001:db8:1::/126"],"removed":["10.0.0.128/25","2001:db8::/127"]}
-```
-
-退出码：`0` 成功／无变化，`1` diff 有变化，`2` 输入或运行错误。`--strict` 拒绝有主机位的 CIDR；`--help` 查看用法。比较的是地址集合，不解释防火墙规则顺序。
-
-原 JSONL 入口仍可用：`node bin/ipset.mjs jsonl < examples/requests.jsonl`。协议与文件格式见 [SPEC.md](docs/SPEC.md)，完整场景见 [USAGE.md](docs/USAGE.md)。
-
-[Releases](https://github.com/tc-adventureking/moon-ipset/releases) 提供便携 CLI ZIP；完整解压后用 `node ipset.mjs --help` 运行，只需 Node.js。也可运行 `python3 scripts/package_release.py` 自行构建并验证安装包。
-
-## 测试
-
-运行库测试：
-
-```bash
-moon test --deny-warn --target wasm-gc
-```
-
-完整验证还需要 Node.js、Python `3.10+` 和 C 工具链：
-
-```bash
-bash scripts/verify.sh
-```
-
-验证范围与版本见 [TESTING.md](docs/TESTING.md)。
-
-## 性能
-
-固定输入的 native release [基准数据与复现命令](docs/BENCHMARKS.md)，覆盖 100 至 10,000 条网段及多种分布。
+退出码：`0` 成功或无变化，`1` diff 有变化，`2` 输入或运行错误。该 CLI 比较地址集合，不解释防火墙规则顺序。[文件与 JSONL 协议](docs/SPEC.md)。
 
 ## 许可
 
-[MIT](LICENSE)。便携 CLI 包含 MoonBit core 的许可与 NOTICE，见 [依赖说明](docs/PROVENANCE.md)。
+项目代码使用 [MIT](LICENSE)；CPython 参考部分保留 [Python 许可](third_party/python/LICENSE)，MoonBit 标准库保留其自身许可。来源与修改说明见 [PROVENANCE](docs/PROVENANCE.md)。
