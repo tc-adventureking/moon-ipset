@@ -23,5 +23,5 @@ jobs:
           curl --fail --show-error --silent --location https://cli.moonbitlang.com/install/unix.sh -o "$RUNNER_TEMP/moon-install.sh"
           bash "$RUNNER_TEMP/moon-install.sh"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Compile, test, and run consumer examples
+      - name: Compile, test, and verify the packaged consumer
         run: bash scripts/verify.sh

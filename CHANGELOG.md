@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Verify the official library ZIP in public CI without Python, including
+  retained licenses, source equality, excluded development files, package-local
+  documentation links and independent consumers on all four targets.
+- Keep the usage example link accessible from the installed library package.
+
 ## 0.3.0 — 2026-10-29
 
 - Add general `IpAddress`, `IpNetwork` and `IpInterface` APIs, using CPython

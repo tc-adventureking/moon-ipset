@@ -6,7 +6,11 @@
 bash scripts/verify.sh
 ```
 
-需要 MoonBit、Node.js 24 LTS 与 C 工具链，无需 Python。入口检查格式、零警告编译、四目标测试、公共 API 文件、消费示例及文件 CLI；GitHub Actions 使用同一入口，工具链 stable 可能随时间更新。
+在源码仓库根目录执行，需要 MoonBit、Node.js 24 LTS、`unzip` 与 C 工具链，无需 Python。入口检查格式、零警告编译、四目标测试、公共 API 文件、消费示例及文件 CLI；GitHub Actions 使用同一入口，工具链 stable 可能随时间更新。
+
+仅验证安装包可运行 `bash scripts/verify-package.sh`：调用官方 `moon package`，检查源码和许可文件与仓库一致、无 Python 或开发目录、包内文档链接有效；再把库解包到独立临时目录，使用同一组消费者场景执行四目标测试。消费者只能访问解包后的库，不能回退到本仓库源码。此检查验证本地生成的 ZIP，不等同于从 Mooncakes 下载已发布版本。
+
+2026-10-31 在上述工具链完成安装包检查：4 个消费者测试在四目标各通过一次，共 16 次执行。缺失许可证、许可证内容被改动、混入 Python 文件、失效文档链接四类反例均被拒绝；反例构造工具仅保留本地。默认临时目录为 `/tmp`，自定义 `TMPDIR` 时须位于源码仓库外。
 
 ## 测试覆盖
 

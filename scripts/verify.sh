@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Public checks require MoonBit, Node.js and a C toolchain; no Python dependency.
+# Public checks require MoonBit, Node.js, unzip and a C toolchain; no Python.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 moon fmt --check
@@ -15,3 +15,4 @@ test "${status:-0}" -eq 1
 expected=$(cat examples/policies/expected-diff.json)
 test "$actual" = "$expected"
 printf '%s\n' 'MoonBit checks, examples and file CLI passed.'
+bash scripts/verify-package.sh

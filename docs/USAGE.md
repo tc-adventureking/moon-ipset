@@ -1,6 +1,6 @@
 # 使用场景
 
-完整可执行代码在 [独立消费模块](../examples/consumer/main.mbt)。运行 `moon -C examples/consumer run . --target wasm-gc`，对应测试同时检查以下结果。
+完整可执行代码在仓库的 [独立消费模块](https://github.com/tc-adventureking/moon-ipset/tree/main/examples/consumer)。下载源码仓库后运行 `moon -C examples/consumer run . --target wasm-gc`，对应测试同时检查以下结果。仅安装库包时，示例可从上述链接获取。
 
 ## 1. 校验和归一化地址清单
 
