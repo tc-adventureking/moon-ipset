@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Convert packed IPv4/IPv6 addresses directly in network byte order, avoiding
+  intermediate BigInt work. Add byte-position regressions and a native benchmark.
 - Verify the official library ZIP in public CI without Python, including
   retained licenses, source equality, excluded development files, package-local
   documentation links and independent consumers on all four targets.

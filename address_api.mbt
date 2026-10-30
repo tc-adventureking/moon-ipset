@@ -116,12 +116,13 @@ pub fn IpAddress::from_bigint(
 
 ///|
 pub fn IpAddress::from_bytes(value : Bytes) -> IpAddress raise IpError {
-  let family = match value.length() {
-    4 => V4
-    16 => V6
+  // Exact-width patterns read unsigned words in network byte order.
+  let address = match value {
+    [u32be(d)] => { family_: V4, a: 0U, b: 0U, c: 0U, d, }
+    [u32be(a), u32be(b), u32be(c), u32be(d)] => { family_: V6, a, b, c, d, }
     _ => raise InvalidAddress("packed address must contain 4 or 16 bytes")
   }
-  IpAddress::from_bigint(@bigint.BigInt::from_octets(value[:]), family~)
+  IpAddress::from_address(address)
 }
 
 ///|
@@ -135,7 +136,20 @@ pub fn IpAddress::to_bigint(self : IpAddress) -> @bigint.BigInt {
 
 ///|
 pub fn IpAddress::to_bytes(self : IpAddress) -> Bytes {
-  self.to_bigint().to_octets(length=self.max_prefixlen() / 8)
+  let address = self.address_
+  if address.family_ == V4 {
+    Bytes::makei(4, i => (address.d >> ((3 - i) * 8)).to_byte())
+  } else {
+    Bytes::makei(16, i => {
+      let word = match i / 4 {
+        0 => address.a
+        1 => address.b
+        2 => address.c
+        _ => address.d
+      }
+      (word >> ((3 - i % 4) * 8)).to_byte()
+    })
+  }
 }
 
 ///|

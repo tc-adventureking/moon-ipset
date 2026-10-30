@@ -225,6 +225,10 @@ fn run_case(
 ///|
 fn main {
   let smoke = @env.args().contains("--smoke")
+  if @env.args().contains("--packed") {
+    run_packed_suite(smoke)
+    return
+  }
   if @env.args().contains("--subset") {
     run_subset_suite(smoke)
     return
