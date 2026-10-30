@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.1 — 2026-10-31
 
 - Add `IpInterface::from_address_mask` for separately supplied typed addresses
   and masks, reusing network mask validation while retaining host bits and scope.

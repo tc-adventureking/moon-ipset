@@ -14,7 +14,7 @@
 ## 安装与使用
 
 ```bash
-moon add tc-adventureking/ipset@0.3.0
+moon add tc-adventureking/ipset@0.3.1
 ```
 
 在 `moon.pkg` 中导入：
