@@ -80,6 +80,16 @@ pub fn IpInterface::from_address(
 }
 
 ///|
+/// Pair a typed host address with a decimal prefix, IPv4 netmask or hostmask.
+/// Preserve host bits and scope. IPv6 accepts a decimal prefix only.
+pub fn IpInterface::from_address_mask(
+  address : IpAddress,
+  mask : String,
+) -> IpInterface raise IpError {
+  IpInterface::from_address(address, ip_parse_prefix(mask, address.family()))
+}
+
+///|
 pub fn IpInterface::from_bigint(
   value : @bigint.BigInt,
   prefix? : Int32,

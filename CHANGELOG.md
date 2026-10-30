@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `IpInterface::from_address_mask` for separately supplied typed addresses
+  and masks, reusing network mask validation while retaining host bits and scope.
 - Convert packed IPv4/IPv6 addresses directly in network byte order, avoiding
   intermediate BigInt work. Add byte-position regressions and a native benchmark.
 - Verify the official library ZIP in public CI without Python, including

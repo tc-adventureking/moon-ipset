@@ -53,7 +53,10 @@ fn subnet_plan() -> Array[String] raise {
 ///|
 // Scenario 3: retain configured hosts, validate membership and inspect IPv6 lazily.
 fn interface_config() -> Array[String] raise {
-  let v4 = @net.ip_interface("192.168.10.7/255.255.255.192")
+  let v4 = @net.IpInterface::from_address_mask(
+    @net.ip_address("192.168.10.7"),
+    "255.255.255.192",
+  )
   let v6 = @net.ip_interface("2001:db8:10::7/64")
   assert_true(v4.network().contains(v4.ip()))
   assert_true(v6.network().contains(v6.ip()))

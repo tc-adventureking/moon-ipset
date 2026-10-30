@@ -174,6 +174,7 @@ pub fn IpInterface::exploded(Self) -> String
 pub fn IpInterface::family(Self) -> Family
 pub fn IpInterface::format(Self, String) -> String raise IpError
 pub fn IpInterface::from_address(IpAddress, Int32) -> Self raise IpError
+pub fn IpInterface::from_address_mask(IpAddress, String) -> Self raise IpError
 pub fn IpInterface::from_bigint(@bigint.BigInt, prefix? : Int32, family? : Family) -> Self raise IpError
 pub fn IpInterface::from_bytes(Bytes, prefix? : Int32) -> Self raise IpError
 pub fn IpInterface::hash(Self) -> Int32

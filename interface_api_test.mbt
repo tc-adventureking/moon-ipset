@@ -178,3 +178,73 @@ test "interface mapped IPv6 uses only the host address" {
     )
   }
 }
+
+///|
+test "typed interface mask construction preserves configured hosts" {
+  let host = @ipset.ip_address("192.0.2.7")
+  for mask in ["24", "024", "255.255.255.0", "0.0.0.255"] {
+    let iface = @ipset.IpInterface::from_address_mask(host, mask)
+    assert_eq(iface.to_string(), "192.0.2.7/24")
+    assert_eq(iface.ip(), host)
+    assert_eq(iface.network().to_string(), "192.0.2.0/24")
+  }
+  for
+    (mask, expected) in [
+      ("0", "192.0.2.7/0"),
+      ("0.0.0.0", "192.0.2.7/0"),
+      ("32", "192.0.2.7/32"),
+      ("255.255.255.255", "192.0.2.7/32"),
+    ] {
+    assert_eq(
+      @ipset.IpInterface::from_address_mask(host, mask).to_string(),
+      expected,
+    )
+  }
+}
+
+///|
+test "typed interface masks retain IPv6 scope and mapped address family" {
+  for
+    (host, mask, network) in [
+      ("fe80::1%eth0", "0064", "fe80::/64"),
+      ("fe80::%eth0", "64", "fe80::%eth0/64"),
+      ("fe80::1%eth0", "128", "fe80::1%eth0/128"),
+      ("::ffff:192.0.2.7", "120", "::ffff:192.0.2.0/120"),
+    ] {
+    let address = @ipset.ip_address(host)
+    let iface = @ipset.IpInterface::from_address_mask(address, mask)
+    assert_eq(iface.address(), address)
+    assert_eq(iface.scope_id(), address.scope_id())
+    assert_eq(iface.version(), 6)
+    assert_eq(iface.network().to_string(), network)
+  }
+}
+
+///|
+test "typed interface masks reject malformed and cross-family masks" {
+  for
+    (host, masks) in [
+      (
+        "192.0.2.7",
+        ["33", "255.0.255.0", "0.0.255.1", "ffff:ffff::", "255.255.255.999"],
+      ),
+      (
+        "fe80::1%eth0",
+        ["129", "255.255.255.0", "0.0.0.255", "ffff:ffff:ffff:ffff::"],
+      ),
+    ] {
+    let address = @ipset.ip_address(host)
+    for mask in masks + ["", "-1", " 24", "24/1", "999999999999999999999"] {
+      assert_true(
+        try {
+          ignore(@ipset.IpInterface::from_address_mask(address, mask))
+          false
+        } catch {
+          @ipset.InvalidPrefix(actual) => actual == mask
+          _ => false
+        },
+        msg=mask,
+      )
+    }
+  }
+}

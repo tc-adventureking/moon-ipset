@@ -15,7 +15,7 @@
 | 网络地址、掩码、计数与索引 | `network_address`、`broadcast_address`、`netmask`、`hostmask`、`prefixlen`、`num_addresses`、`nth` |
 | 主机遍历与子网管理 | `iter`、`hosts`、`subnets`、`supernet`、`address_exclude` |
 | 网络关系与数值比较 | `contains`、`overlaps`、`subnet_of`、`supernet_of`、`compare_networks` |
-| 地址与掩码元组构造 | `IpNetwork::from_address_mask(IpAddress, String, strict~)`；整数前缀使用 `from_address` |
+| 地址与掩码元组构造 | `IpNetwork::from_address_mask(IpAddress, String, strict~)`、`IpInterface::from_address_mask(IpAddress, String)`；整数前缀使用 `from_address` |
 | 接口主机与所属网络 | `address`、`ip`、`network`、`with_prefixlen/netmask/hostmask`；转换、属性及算术方法 |
 | `summarize_address_range` / `collapse_addresses` | `summarize_address_range`、`collapse_addresses`；混合地址、接口与网络使用 `collapse_ip_inputs(Array[IpInput])` |
 | `get_mixed_type_key` / 相等、排序与字典键 | `get_mixed_type_key`；`Eq`、`Compare`、`Hash`，可作为 `Map` 键 |
