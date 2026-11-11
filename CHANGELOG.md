@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.2 — 2026-11-12
 
 - Adapt source and generated API declarations to the current stable `#derive`
   syntax without changing public signatures or address/set behavior.
