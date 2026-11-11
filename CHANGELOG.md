@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Adapt source and generated API declarations to the current stable `#derive`
+  syntax without changing public signatures or address/set behavior.
+- Record the full toolchain version, build all four targets in release mode,
+  and run the public verification workflow weekly against official stable.
+
 ## 0.3.1 — 2026-10-31
 
 - Add `IpInterface::from_address_mask` for separately supplied typed addresses

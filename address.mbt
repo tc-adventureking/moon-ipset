@@ -1,9 +1,10 @@
 ///|
 /// Address families are distinct, including IPv4-mapped IPv6 addresses.
+#derive(Eq, Compare)
 pub(all) enum Family {
   V4
   V6
-} derive(Eq, Compare)
+}
 
 ///|
 pub extend Family with Eq::{equal, not_equal}
@@ -21,12 +22,13 @@ pub impl Show for Family with fn output(self, logger) {
 
 ///|
 /// Invalid input is reported without constructing an invalid address or range.
+#derive(Eq)
 pub(all) suberror IpError {
   InvalidAddress(String)
   InvalidPrefix(String)
   InvalidRange(String)
   HostBitsSet(String)
-} derive(Eq)
+}
 
 ///|
 pub extend IpError with Eq::{equal, not_equal}
@@ -47,13 +49,14 @@ pub impl Show for IpError with fn output(self, logger) {
 
 ///|
 /// An immutable address. The four words are in network (most significant first) order.
+#derive(Eq)
 struct Address {
   family_ : Family
   a : UInt32
   b : UInt32
   c : UInt32
   d : UInt32
-} derive(Eq)
+}
 
 ///|
 pub extend Address with Eq::{equal, not_equal}

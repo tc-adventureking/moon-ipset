@@ -1,10 +1,11 @@
 ///|
 /// An inclusive interval in exactly one IP address family.
 /// Construct with `Interval::new`; endpoints cannot be changed afterwards.
+#derive(Eq)
 pub struct Interval {
   priv lo : Address
   priv hi : Address
-} derive(Eq)
+}
 
 ///|
 pub extend Interval with Eq::{not_equal, equal}
@@ -37,9 +38,10 @@ pub fn Interval::last(self : Interval) -> Address {
 /// An immutable set of IPv4 and/or IPv6 addresses.
 /// Intervals are sorted, non-overlapping, and non-adjacent within each family.
 /// IPv4 and IPv6 (including IPv4-mapped IPv6 addresses) remain distinct.
+#derive(Eq)
 pub struct IpSet {
   priv ranges : Array[Interval]
-} derive(Eq)
+}
 
 ///|
 pub extend IpSet with Eq::{not_equal, equal}

@@ -1,9 +1,10 @@
 ///|
 /// A canonical CIDR network; host bits are zero and the prefix fits the family.
+#derive(Eq)
 struct Cidr {
   network_ : Address
   prefix_ : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend Cidr with Eq::{equal, not_equal}

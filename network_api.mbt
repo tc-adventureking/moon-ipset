@@ -1,10 +1,11 @@
 ///|
 /// A dual-stack IP network. Scoped IPv6 network addresses retain their scope
 /// only when construction does not need to clear host bits, matching Python.
+#derive(Eq)
 struct IpNetwork {
   cidr_ : Cidr
   scope_ : String?
-} derive(Eq)
+}
 
 ///|
 pub extend IpNetwork with Eq::{equal, not_equal}

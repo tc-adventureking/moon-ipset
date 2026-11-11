@@ -1,11 +1,12 @@
 ///|
 /// Explicitly distinguish host addresses, interfaces and networks for mixed
 /// operations. An interface contributes its host address, not its subnet.
+#derive(Eq)
 pub(all) enum IpInput {
   AddressInput(IpAddress)
   InterfaceInput(IpInterface)
   NetworkInput(IpNetwork)
-} derive(Eq)
+}
 
 ///|
 pub extend IpInput with Eq::{equal, not_equal}

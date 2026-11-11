@@ -1,10 +1,11 @@
 ///|
 /// A general IP address with an optional IPv6 zone identifier.
 /// Legacy Address remains an unscoped numeric address for set algebra.
+#derive(Eq)
 struct IpAddress {
   address_ : Address
   scope_ : String?
-} derive(Eq)
+}
 
 ///|
 pub extend IpAddress with Eq::{equal, not_equal}

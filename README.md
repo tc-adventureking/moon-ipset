@@ -49,6 +49,8 @@ moon test --deny-warn --target all
 
 独立消费示例涵盖地址清单校验、子网规划、双栈接口配置和集合排除。完整公开检查运行 `bash scripts/verify.sh`，需要 Node.js 24 LTS、`unzip` 和 C 工具链，无需 Python；包含官方库包解包后的四目标消费测试和许可证完整性检查。[验证范围](docs/TESTING.md)。
 
+2026-11-12 已使用官方 stable（moon 0.1.20261104、moonc v0.10.20）通过四后端检查、测试与 release 构建。CI 每周使用官方 stable 复核，并记录实际工具链版本。
+
 ## 网段文件 CLI
 
 每行一个 IP/CIDR，支持空行、`#` 注释和标准输入 `-`：

@@ -1,10 +1,11 @@
 ///|
 /// An IP host address paired with a network prefix. Unlike IpNetwork, this
 /// type preserves host bits. It models a value, not an OS network adapter.
+#derive(Eq)
 struct IpInterface {
   address_ : IpAddress
   network_ : IpNetwork
-} derive(Eq)
+}
 
 ///|
 pub extend IpInterface with Eq::{equal, not_equal}
