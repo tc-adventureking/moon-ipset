@@ -1,0 +1,6 @@
+import {
+  "ipset-examples/cloud-policy" @policy,
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")

@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Add public, frozen CPython conformance vectors with separately counted semantic
+  adaptations and disposable-source mutation checks; keep Python tooling local.
+- Add a fixed real AWS EC2 prefix example checked against netaddr 1.3.0, including
+  raw snapshot provenance, dual-stack exclusions and membership checks.
+- Document native design decisions, traceable review cases and ecosystem scope.
+  Public library APIs and address/set algorithms are unchanged.
+
 ## 0.3.2 — 2026-11-12
 
 - Adapt source and generated API declarations to the current stable `#derive`

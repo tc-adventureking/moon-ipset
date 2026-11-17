@@ -1,6 +1,18 @@
 # 验证范围
 
-最近复核时间为 2026-11-12，环境为 Ubuntu WSL 2、Node.js 24.22.1 与官方当前 stable 工具链。实际 `moon version --all` 的版本为：
+## 2026-11-17 新增公开证据
+
+本轮新增的验证使用下述已有工具链。根目录公开入口仍为 `bash scripts/verify.sh`，无需 Python：
+
+- [分层参考向量](https://github.com/tc-adventureking/moon-ipset/tree/main/conformance)：1,119 条严格 CPython 参考结果（117 类）和 44 条明确适配（11 类）分别验证，四后端运行同一集合。参考源码、向量哈希和分类计数固定；不是重命名历史全部 22,936 条差分。
+- 测试适配器只将 `IpError` 计为输入拒绝；未知操作、协议中无法表示的字节值等错误单独验证。临时源码故障注入要求干净基线通过，且两种变异均编译成功并被测试断言检出。
+- [真实 AWS 网段案例](https://github.com/tc-adventureking/moon-ipset/tree/main/examples/cloud-policy)：保留原始快照并核对提取过程，4,490 条 EC2 输入和 572 条排除记录的完整结果与 netaddr 1.3.0 对照，覆盖 512 次成员查询。
+- 当前工作区 wasm、wasm-gc、native 各 90 个测试，JavaScript 103 个，共 373 次跨后端测试执行。向量是其中循环执行的输入，不把它们重复加成测试定义数量。
+- 公开入口显式选用仓库 `moon.work`，其中包含两个消费示例，避免继承调用方关闭 workspace 的设置。解包后的独立库另运行原消费场景四后端各 4 项和云场景各 2 项，这些额外消费执行不计入上述 373 次。
+
+设计约束见 [DESIGN](DESIGN.md)，真实缺陷、AI 意见反证和预防性测试的区别见 [REVIEW_CASES](REVIEW_CASES.md)，生态基线见 [ECOSYSTEM](ECOSYSTEM.md)。新增向量及真实快照只在源码仓库提供，不进入 Mooncakes 库包；Python 开发工具和完整模型对话继续仅保留本地。
+
+以下为 v0.3.2 发布时（2026-11-12）的验证记录，环境为 Ubuntu WSL 2、Node.js 24.22.1 与当时官方 stable 工具链。本轮复用的 `moon version --all` 版本为：
 
 ```text
 moon 0.1.20261104 (940aa18 2026-11-04)

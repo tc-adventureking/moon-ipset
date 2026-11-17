@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "source": {
+    "url": "https://ip-ranges.amazonaws.com/ip-ranges.json",
+    "downloaded_on": "2026-11-17",
+    "createDate": "2026-11-17-05-47-05",
+    "syncToken": "1794894425",
+    "sha256": "74653f3d98e777d9e24e58064e28f3f9c5ad9e6ded775751e2c84004576e8a95"
+  },
+  "selection": {
+    "source": "prefixes + ipv6_prefixes, service == EC2; original order retained",
+    "exceptions": "same selection, region == us-east-1",
+    "source_count": 4490,
+    "exception_count": 572,
+    "query_count": 512,
+    "query_seed": 20261117,
+    "query_selection": "5 explicit domain limits/mapped address + random.sample(sorted(unique prefix boundaries and adjacent points)), k=507"
+  },
+  "reference": {
+    "name": "netaddr",
+    "version": "1.3.0",
+    "url": "https://netaddr.readthedocs.io/en/1.3.0/tutorial_03.html",
+    "method": "IPSet(prefixes) - IPSet(exceptions); iter_cidrs sorted by (version, first, prefixlen); IPAddress(query) in result; sum CIDR.size per family"
+  },
+  "files": {
+    "source_prefixes.mbt": "4419f527f211d0511058161f12cbcb03619c9ebc2f610dd41ca8983aecb066ba",
+    "exception_prefixes.mbt": "bc11adbc7665481ea3a4ccc6f144d50c35e5816af83b2de1c3039d6f2a5e68ad",
+    "query_addresses.mbt": "76e9c6bca5fae3e088d04a7537f512fa305bf808a7cd79d33f1a94965212a918",
+    "expected_wbtest.mbt": "57eb4da53b7f37ce9539c4299a1cf9eaafd119d5d11c960009ff0760f54ff194"
+  },
+  "expected": {
+    "normalized_count": 2668,
+    "exception_count": 449,
+    "allowed_count": 2595,
+    "matched_queries": 249,
+    "ipv4_addresses": "58698653",
+    "ipv6_addresses": "1317034699669070404305547165696"
+  },
+  "limits": "One actual snapshot, no historical change simulation; numeric EC2 prefix coverage, not region ownership or enforcement semantics. No claim that AWS publishes all addresses used by a service."
+}

@@ -1,4 +1,5 @@
 members = [
   ".",
   "examples/consumer",
+  "examples/cloud-policy",
 ]

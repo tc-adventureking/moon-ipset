@@ -18,6 +18,8 @@
 
 ## 依赖边界
 
+源码仓库的 `examples/cloud-policy/aws-ip-ranges.json` 保存一份 [AWS 官方公开网段事实数据](https://ip-ranges.amazonaws.com/ip-ranges.json)，发布字段及覆盖范围见 [AWS 格式说明](https://docs.aws.amazon.com/vpc/latest/userguide/aws-ip-syntax.html)。原始快照约 2.75 MB；时间、摘要、筛选规则与派生结果记录在示例的 `snapshot.json`。保留原始数据是为了离线核查提取过程，不表示项目拥有 AWS 网站文档、商标或其他第三方内容的权利。该数据及示例不进入 Mooncakes 库包，不引入 AWS SDK 或联网运行时依赖。
+
 | 部分 | 用途与许可 |
 | --- | --- |
 | 项目原创代码、示例和文档 | [MIT](../LICENSE) |

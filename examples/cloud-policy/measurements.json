@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-17",
+  "library_base": "d5449bd065ea3077ae724a41c4008181a5371bf7",
+  "policy_sha256": "85a37ba8711a43c69ed270e8071c119cf690620d8d3b7bc65e6e8e787d57349a",
+  "native_in_process": [
+    {
+      "name": "aws-ec2-policy.parse-and-evaluate",
+      "sum": 46013.89311875,
+      "min": 6219.00195,
+      "max": 7259.1236687499995,
+      "mean": 6573.413302678571,
+      "median": 6267.016875000001,
+      "variance": 209012.5393091446,
+      "std_dev": 457.17889202055756,
+      "std_dev_pct": 6.954969526018755,
+      "median_abs_dev": 71.18692780500194,
+      "median_abs_dev_pct": 1.1358981350277906,
+      "quartiles": [
+        6238.92934375,
+        6267.016875000001,
+        6895.44596875
+      ],
+      "iqr": 656.5166250000002,
+      "batch_size": 16,
+      "runs": 7
+    }
+  ],
+  "netaddr_in_process": {
+    "reference": "netaddr 1.3.0",
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "unit": "microseconds_per_evaluation",
+    "samples": [
+      70640.323,
+      71778.655,
+      75813.829,
+      69861.54,
+      70819.96,
+      68616.58,
+      71785.11
+    ],
+    "median": 70819.96,
+    "scope": "in-process split text, parse, canonicalize, subtract, stringify result, count and 512 memberships; excludes fixture load/JSON serialization",
+    "correctness": "exact JSON comparison against frozen reference passed"
+  },
+  "native_process": {
+    "elapsed_seconds": 0.04,
+    "peak_rss_kib": 3160
+  },
+  "environment": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "cpu": "Intel(R) Core(TM) i9-14900HX",
+    "native_binary_sha256": "92fe6944e85f76d4b2f91f928056a8321a6e762b4a4ea6af6be5a8acd3c02318",
+    "correctness": "full output equals frozen netaddr result"
+  }
+}

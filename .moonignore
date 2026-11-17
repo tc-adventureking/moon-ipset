@@ -6,6 +6,7 @@ target/
 /cmd/
 /bin/
 /bench/
+/conformance/
 /.github/
 scripts/
 docs/ai/

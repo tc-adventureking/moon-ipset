@@ -36,7 +36,7 @@ test "interface and subnet" {
 
 `ip_network` 默认严格拒绝非零主机位；需要归一化时传 `strict=false`。接口加减会返回 `/32` 或 `/128` 的新接口。地址属性依据固定参考版本，`is_private` 不只表示 RFC1918 私有地址。
 
-[完整 API](pkg.generated.mbti) · [Python 对照与差异](docs/COMPATIBILITY.md) · [使用场景](docs/USAGE.md)
+[完整 API](pkg.generated.mbti) · [Python 对照与差异](docs/COMPATIBILITY.md) · [使用场景](docs/USAGE.md) · [设计取舍](docs/DESIGN.md)
 
 ## 示例与测试
 
@@ -47,7 +47,7 @@ moon -C examples/consumer run . --target wasm-gc
 moon test --deny-warn --target all
 ```
 
-独立消费示例涵盖地址清单校验、子网规划、双栈接口配置和集合排除。完整公开检查运行 `bash scripts/verify.sh`，需要 Node.js 24 LTS、`unzip` 和 C 工具链，无需 Python；包含官方库包解包后的四目标消费测试和许可证完整性检查。[验证范围](docs/TESTING.md)。
+独立消费示例涵盖地址清单校验、子网规划、双栈接口配置和集合排除，另有 [真实云网段示例](https://github.com/tc-adventureking/moon-ipset/tree/main/examples/cloud-policy)。完整公开检查运行 `bash scripts/verify.sh`，需要 Node.js 24 LTS、`unzip` 和 C 工具链，无需 Python；包含固定参考向量、故障注入、官方库包解包后的四目标消费测试和许可证完整性检查。[验证范围](docs/TESTING.md)。
 
 2026-11-12 已使用官方 stable（moon 0.1.20261104、moonc v0.10.20）通过四后端检查、测试与 release 构建。CI 每周使用官方 stable 复核，并记录实际工具链版本。
 

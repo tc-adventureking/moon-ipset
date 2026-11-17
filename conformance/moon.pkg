@@ -1,0 +1,5 @@
+import {
+  "tc-adventureking/ipset" @net,
+  "moonbitlang/core/json",
+  "moonbitlang/core/bigint",
+} for "test"

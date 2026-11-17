@@ -42,7 +42,7 @@ import { readFileSync } from 'node:fs';
 const names = readFileSync(process.argv[2], 'utf8').trimEnd().split('\n');
 if (new Set(names).size !== names.length) throw new Error('Duplicate ZIP members');
 const excluded = new Set(['work', '_build', 'target', 'scripts', 'cmd', 'bin',
-  'bench', 'examples', 'node_modules', '__pycache__', 'moon.work']);
+  'bench', 'conformance', 'examples', 'node_modules', '__pycache__', 'moon.work']);
 for (const name of names) {
   const parts = name.split('/');
   if (name.startsWith('/') || /[\\:\r]/.test(name) ||
@@ -94,8 +94,15 @@ moon -C "$scratch/library" check --target all --deny-warn --frozen
 mkdir "$scratch/consumer"
 cp "$repo/examples/consumer/"*.mbt "$repo/examples/consumer/moon.mod" \
    "$repo/examples/consumer/moon.pkg" "$scratch/consumer/"
-printf '%s\n' 'members = ["library", "consumer"]' > "$scratch/moon.work"
+mkdir -p "$scratch/cloud-policy/cmd"
+cp "$repo/examples/cloud-policy/"*.mbt "$repo/examples/cloud-policy/moon.mod" \
+   "$repo/examples/cloud-policy/moon.pkg" "$scratch/cloud-policy/"
+cp "$repo/examples/cloud-policy/cmd/"*.mbt "$repo/examples/cloud-policy/cmd/moon.pkg" \
+   "$scratch/cloud-policy/cmd/"
+printf '%s\n' 'members = ["library", "consumer", "cloud-policy"]' > "$scratch/moon.work"
 export MOON_WORK="$scratch/moon.work"
 moon -C "$scratch/consumer" test . --target all --deny-warn --frozen
 moon -C "$scratch/consumer" run . --target wasm-gc --frozen
+moon -C "$scratch/cloud-policy" test . --target all --deny-warn --frozen
+moon -C "$scratch/cloud-policy" run cmd --target wasm-gc --frozen
 printf '%s\n' 'Official library ZIP and independent consumer passed on all four targets.'

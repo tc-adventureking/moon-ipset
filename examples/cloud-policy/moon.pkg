@@ -1,0 +1,7 @@
+import {
+  "tc-adventureking/ipset" @net,
+}
+
+import {
+  "moonbitlang/core/json",
+} for "wbtest"
