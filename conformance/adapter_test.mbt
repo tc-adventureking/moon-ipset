@@ -66,7 +66,9 @@ fn big(r : Json, key : String) -> BigInt raise RequestError {
       raise Invalid
     }
   }
-  @bigint.BigInt::from_string(s)
+  @string.parse_bigint(s) catch {
+    _ => raise Invalid
+  }
 }
 
 ///|
