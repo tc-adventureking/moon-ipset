@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.3 — 2026-11-17
 
 - Add public, frozen CPython conformance vectors with separately counted semantic
   adaptations and disposable-source mutation checks; keep Python tooling local.
